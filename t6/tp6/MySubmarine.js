@@ -24,6 +24,8 @@ function MySubmarine(scene,x,y,z) {
     this.triMaterial.setAmbient(1, 1, 1, 1);
     this.triMaterial.setDiffuse(1, 1, 1, 1);
     this.triMaterial.setSpecular(1, 1, 1, 1);
+    this.triMaterial.loadTexture("../resources/images/table.png");
+    this.triMaterial.setTextureWrap('REPEAT', 'REPEAT');
 
 
 };
@@ -51,6 +53,37 @@ MySubmarine.prototype.display = function () {
         this.scene.translate(0,0,-2.04);
         this.scene.scale(0.73,1,0.46);
         this.scene.rotate(Math.PI,1,0,0);
+        this.triMaterial.apply();
+        this.scircle.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+        this.scene.rotate(-Math.PI/2,1,0,0);
+        this.scene.scale(0.60,0.88,1.57);
+        this.triMaterial.apply();
+        this.cylinderb.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+        this.scene.translate(0,1.57,0.4);
+        this.scene.rotate(-Math.PI/2,1,0,0);
+        this.scene.scale(0.1,0.1,1);
+        this.triMaterial.apply();
+        this.cylinderb.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+        this.scene.translate(0,2.57,0.4);
+        this.scene.rotate(-Math.PI/2,0,0,0);
+        this.scene.scale(0.1,0.1,0.3);
+        this.triMaterial.apply();
+        this.cylinderb.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+        this.scene.translate(0,2.57,0.4);
+        this.scene.rotate(-3*Math.PI/4,1,0,0);
+        this.scene.scale(0.1,0.1,0.1);
         this.triMaterial.apply();
         this.scircle.display();
     this.scene.popMatrix();
