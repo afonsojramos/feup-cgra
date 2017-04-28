@@ -28,8 +28,10 @@ LightingScene.prototype.init = function (application) {
 
 	this.enableTextures(true);
 
-	this.option1 = true; this.option2 = false; this.speed = 1;
-	
+	this.light1 = true; this.light2 = true;
+	this.light3 = true; this.light4 = true;
+	this.light5 = true;
+	this.speed = 1;	
 
 	this.gl.clearColor(0.1953125, 0.14453125, 0.921875, 1.0);
 	this.gl.clearDepth(100.0);
@@ -135,55 +137,54 @@ LightingScene.prototype.initCameras = function () {
 };
 
 LightingScene.prototype.initLights = function () {
-	this.setGlobalAmbientLight(0.5, 0.5, 0.5, 1.0);
+    this.setGlobalAmbientLight(0.5, 0.5, 0.5, 1.0);
 
-	// Positions for four lights
-	this.lights[0].setPosition(4, 6, 1, 1);
-	//this.lights[0].setVisible(true); // show marker on light position (different from enabled)
+    // Positions for five lights
+    this.lights[0].setPosition(4, 6, 1, 1);
+    this.lights[0].setVisible(true); // show marker on light position (different from enabled)
 
-	this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-	//this.lights[1].setVisible(true); // show marker on light position (different from enabled)
+    this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
+    this.lights[1].setVisible(true); // show marker on light position (different from enabled)
 
-	this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
-	//this.lights[2].setVisible(true); // show marker on light position (different from enabled)
+    this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
+    this.lights[2].setVisible(true); // show marker on light position (different from enabled)
 
-	this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
-	//this.lights[3].setVisible(true); // show marker on light position (different from enabled)
+    this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
+    this.lights[3].setVisible(true); // show marker on light position (different from enabled)
 
-	this.lights[4].setPosition(0, 7.0, 7.5, 1.0);
-	//this.lights[4].setVisible(true); // show marker on light position (different from enabled)
+    this.lights[4].setPosition(0, 7.0, 7.5, 1.0);
+    this.lights[4].setVisible(true); // show marker on light position (different from enabled)
 
-	this.lights[0].setAmbient(0, 0, 0, 1);
-	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[0].setSpecular(1, 1, 0, 1);
-	this.lights[0].enable();
+    this.lights[0].setAmbient(0, 0, 0, 1);
+    this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
+    this.lights[0].setSpecular(1, 1, 0, 1);
 
-	this.lights[1].setAmbient(0, 0, 0, 1);
-	this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[1].enable();
 
-	this.lights[2].setAmbient(0, 0, 0, 1);
-	this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[2].setSpecular(1, 1, 1, 1);
-	this.lights[2].setConstantAttenuation(0);
-	this.lights[2].setLinearAttenuation(1);
-	this.lights[2].setQuadraticAttenuation(0);
-	this.lights[2].enable();
+    this.lights[1].setAmbient(0, 0, 0, 1);
+    this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
 
-	this.lights[3].setAmbient(0, 0, 0, 1);
-	this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[3].setSpecular(1, 1, 0, 1);
-	this.lights[3].setConstantAttenuation(0);
-	this.lights[3].setLinearAttenuation(0);
-	this.lights[3].setQuadraticAttenuation(0.2);
-	this.lights[3].enable();
+    this.lights[2].setAmbient(0, 0, 0, 1);
+    this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
+    this.lights[2].setSpecular(1, 1, 1, 1);
+    this.lights[2].setConstantAttenuation(0);
+    this.lights[2].setLinearAttenuation(1);
+    this.lights[2].setQuadraticAttenuation(0);
 
-	this.lights[4].setAmbient(0, 0, 0, 1);
-	this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
-	this.lights[4].setQuadraticAttenuation(0.2);
-	this.lights[4].enable();
 
-	this.setUpdatePeriod(10);
+    this.lights[3].setAmbient(0, 0, 0, 1);
+    this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
+    this.lights[3].setSpecular(1, 1, 0, 1);
+    this.lights[3].setConstantAttenuation(0);
+    this.lights[3].setLinearAttenuation(0);
+    this.lights[3].setQuadraticAttenuation(0.2);
+
+
+    this.lights[4].setAmbient(0, 0, 0, 1);
+    this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
+    this.lights[4].setQuadraticAttenuation(0.2);
+
+
+    this.setUpdatePeriod(10);
 };
 
 LightingScene.prototype.updateLights = function () {
@@ -377,6 +378,35 @@ LightingScene.prototype.update = function (currentTime) {
 		this.clock.update(currentTime);
 		CLOCKRATE = 0;
 	}
+
+	if (this.light1)
+	    this.lights[0].enable();
+	else
+	    this.lights[0].disable();
+
+
+	if (this.light2)
+	    this.lights[1].enable();
+	else
+	    this.lights[1].disable();
+
+
+	if (this.light3)
+	    this.lights[2].enable();
+	else
+	    this.lights[2].disable();
+
+
+	if (this.light4)
+	    this.lights[3].enable();
+	else
+	    this.lights[3].disable();
+
+
+	if (this.light5)
+	    this.lights[4].enable();
+	else
+	    this.lights[4].disable();
 
 	this.plane.update();
 };
