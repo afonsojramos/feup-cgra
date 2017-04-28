@@ -24,12 +24,19 @@
  	*/
  	var theta = 2*Math.PI/this.slices;
  	var phi = Math.PI/(2*this.stacks);
+	var stepS = 0;
+	var stepT = 0;
 
  	this.vertices = [];
+	this.texCoords = [];
  	for(var j = 0; j <= this.stacks; j++){
 		for (var i = 0; i < this.slices; i++) {			
 			this.vertices.push(Math.sin(j*phi)*Math.cos(i*theta), Math.sin(j*phi)*Math.sin(i*theta), Math.cos(j*phi));
+			this.texCoords.push(stepS, stepT);
+			stepS+=1/this.slices;
 		}
+		stepS = 0;
+		stepT+= 1/this.stacks;
 	}
 	
  	this.indices = [];

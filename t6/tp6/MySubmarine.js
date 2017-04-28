@@ -18,15 +18,15 @@ function MySubmarine(scene,x,y,z) {
     this.cylinderb = new MyCylinderWBases(this.scene, 26);
     this.scircle = new MyLamp(this.scene,26,5);
     this.triangle = new MyTriangle(this.scene);
+    this.tri = new MyTriPrism(this.scene);
 
     // Materials
     this.triMaterial = new CGFappearance(this.scene);
     this.triMaterial.setAmbient(1, 1, 1, 1);
     this.triMaterial.setDiffuse(1, 1, 1, 1);
     this.triMaterial.setSpecular(1, 1, 1, 1);
-    this.triMaterial.loadTexture("../resources/images/table.png");
+    this.triMaterial.loadTexture("../resources/images/window.png");
     this.triMaterial.setTextureWrap('REPEAT', 'REPEAT');
-
 
 };
 
@@ -34,7 +34,9 @@ MySubmarine.prototype = Object.create(CGFobject.prototype);
 MySubmarine.prototype.constructor = MySubmarine;
 
 MySubmarine.prototype.display = function () {
-    this.scene.pushMatrix();
+    this.triMaterial.apply();
+    this.tri.display();
+    /*this.scene.pushMatrix();
         this.scene.translate(0,0,-2.04);
         this.scene.scale(0.73,1,4.08);
         this.triMaterial.apply();
@@ -86,11 +88,7 @@ MySubmarine.prototype.display = function () {
         this.scene.scale(0.1,0.1,0.1);
         this.triMaterial.apply();
         this.scircle.display();
-    this.scene.popMatrix();
-};
-
-MySubmarine.prototype.update = function (currentTime) {
-
+    this.scene.popMatrix();*/
 };
 
 MySubmarine.prototype.getX = function(){

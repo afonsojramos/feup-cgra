@@ -20,6 +20,8 @@ serialInclude([
 	'MyTriangle.js',
 	'MySubmarine.js',
 	'MyCylinderWBases.js',
+	'MyTriangleRect.js',
+	'MyTriPrism.js',
 
 
 	main = function () {

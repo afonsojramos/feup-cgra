@@ -28,9 +28,9 @@ LightingScene.prototype.init = function (application) {
 
 	this.enableTextures(true);
 
-	this.light1 = true; this.light2 = true;
-	this.light3 = true; this.light4 = true;
-	this.light5 = true;
+	this.Light1 = true; this.Light2 = true;
+	this.Light3 = true; this.Light4 = true;
+	this.Light5 = true; this.Clock = true;
 	this.speed = 1;	
 
 	this.gl.clearColor(0.1953125, 0.14453125, 0.921875, 1.0);
@@ -354,56 +354,55 @@ LightingScene.prototype.doSomething = function ()
 };
 
 LightingScene.prototype.moveSubForward = function(){	
-	this.submarine.setX(this.submarine.getX() - (Math.sin(-this.submarine.getAngle())/10));
-	this.submarine.setZ(this.submarine.getZ() + (Math.cos(-this.submarine.getAngle())/10));
+	this.submarine.setX(this.submarine.getX() - this.speed*(Math.sin(-this.submarine.getAngle())/10));
+	this.submarine.setZ(this.submarine.getZ() + this.speed*(Math.cos(-this.submarine.getAngle())/10));
 };
 
 LightingScene.prototype.moveSubBack = function(){
-	this.submarine.setX(this.submarine.getX() + (Math.sin(-this.submarine.getAngle())/10));
-	this.submarine.setZ(this.submarine.getZ() - (Math.cos(-this.submarine.getAngle())/10));
+	this.submarine.setX(this.submarine.getX() + this.speed*(Math.sin(-this.submarine.getAngle())/10));
+	this.submarine.setZ(this.submarine.getZ() - this.speed*(Math.cos(-this.submarine.getAngle())/10));
 };
 
 LightingScene.prototype.rotateSubLeft = function(){
-	this.submarine.setAngle(this.submarine.getAngle() + (Math.PI / 180));
+	this.submarine.setAngle(this.submarine.getAngle() + this.speed*(Math.PI / 180));
 };
 
 LightingScene.prototype.rotateSubRight = function(){
-	this.submarine.setAngle(this.submarine.getAngle() - (Math.PI / 180));
+	this.submarine.setAngle(this.submarine.getAngle() - this.speed*(Math.PI / 180));
 };
+
+
 
 LightingScene.prototype.update = function (currentTime) {
 	//Makes the Clock operate independently from the Plane by updating only once per second
 	CLOCKRATE = CLOCKRATE + 10;
 	if (CLOCKRATE == 600) {
-		this.clock.update(currentTime);
+		if (this.Clock)
+			this.clock.update(currentTime);
 		CLOCKRATE = 0;
 	}
 
-	if (this.light1)
+	if (this.Light1)
 	    this.lights[0].enable();
 	else
 	    this.lights[0].disable();
 
-
-	if (this.light2)
+	if (this.Light2)
 	    this.lights[1].enable();
 	else
 	    this.lights[1].disable();
 
-
-	if (this.light3)
+	if (this.Light3)
 	    this.lights[2].enable();
 	else
 	    this.lights[2].disable();
 
-
-	if (this.light4)
+	if (this.Light4)
 	    this.lights[3].enable();
 	else
 	    this.lights[3].disable();
 
-
-	if (this.light5)
+	if (this.Light5)
 	    this.lights[4].enable();
 	else
 	    this.lights[4].disable();
