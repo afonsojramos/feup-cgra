@@ -23,6 +23,7 @@ serialInclude([
 	'MyTriangleRect.js',
 	'MyTriPrism.js',
 	'MyFin.js',
+	'MyHelix.js',
 
 
 	main = function () {

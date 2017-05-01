@@ -52,7 +52,7 @@ MyInterface.prototype.init = function (application) {
 	// this.speed=3;
 	// min and max values can be specified as parameters
 
-	this.gui.add(this.scene, 'speed', 0, 5);
+	this.gui.add(this.scene, 'speed', -5, 5);
 
 	return true;
 };
@@ -82,11 +82,11 @@ MyInterface.prototype.processKeyboard = function (event) {
 			break;
 		
 		case (87):
-			this.scene.moveSubForward();
+			this.scene.incSpeed();
 			break;
 
 		case (83):
-			this.scene.moveSubBack();
+			this.scene.decSpeed();
 			break;
 
 		case (68):

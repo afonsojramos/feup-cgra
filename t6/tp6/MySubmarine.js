@@ -14,13 +14,15 @@ function MySubmarine(scene,x,y,z) {
 
     //angle between sub and Z axis
     this.angle = 0;
+    this.hAngle = 0;
+    this.angInc = Math.PI/30;
     
     this.cylinder = new MyCylinder(this.scene, 26, 20);
     this.cylinderb = new MyCylinderWBases(this.scene, 26);
     this.scircle = new MyLamp(this.scene,26,5);
     this.triangle = new MyTriangle(this.scene);
     this.fin = new MyFin(this.scene);
-    this.cube = new MyUnitCubeQuad(this.scene);
+    this.helix = new MyHelix(this.scene);
 
     // Materials
     this.triMaterial = new CGFappearance(this.scene);
@@ -89,14 +91,14 @@ MySubmarine.prototype.display = function () {
         this.scircle.display();
     this.scene.popMatrix();
     //Fins
-    this.scene.pushMatrix();
+    this.scene.pushMatrix(); //Right
         this.scene.translate(0.5,-0.1,-2.3);
         this.scene.scale(0.6,1,0.5);
         this.triMaterial.apply();
         this.fin.display();
     this.scene.popMatrix();
 
-    this.scene.pushMatrix();
+    this.scene.pushMatrix(); //Left
         this.scene.rotate(Math.PI,0,0,1);
         this.scene.translate(0.5,-0.1,-2.3);
         this.scene.scale(0.6,1,0.5);      
@@ -104,7 +106,7 @@ MySubmarine.prototype.display = function () {
         this.fin.display();
     this.scene.popMatrix();
 
-    this.scene.pushMatrix();
+    this.scene.pushMatrix(); //Top
         this.scene.rotate(Math.PI/2,0,0,1);
         this.scene.translate(0.7,-0.1,-2.3);
         this.scene.scale(0.6,1,0.5);
@@ -112,7 +114,7 @@ MySubmarine.prototype.display = function () {
         this.fin.display();
     this.scene.popMatrix();
 
-    this.scene.pushMatrix();
+    this.scene.pushMatrix(); //Bottom
         this.scene.rotate(3*Math.PI/2,0,0,1);
         this.scene.translate(0.7,-0.1,-2.3);
         this.scene.scale(0.6,1,0.5);      
@@ -120,7 +122,7 @@ MySubmarine.prototype.display = function () {
         this.fin.display();
     this.scene.popMatrix();
 
-    this.scene.pushMatrix();
+    this.scene.pushMatrix(); //Top Right
         this.scene.translate(0.4,1.2,0.25);
         this.scene.scale(0.6,1,0.5);
         this.scene.rotate(Math.PI,1,0,0);
@@ -128,7 +130,7 @@ MySubmarine.prototype.display = function () {
         this.fin.display();
     this.scene.popMatrix();
 
-    this.scene.pushMatrix();
+    this.scene.pushMatrix(); //Top Left
         this.scene.translate(-0.4,1,0.25);
         this.scene.scale(0.6,1,0.5);
         this.scene.rotate(Math.PI,1,0,0);
@@ -153,23 +155,9 @@ MySubmarine.prototype.display = function () {
 
     this.scene.pushMatrix();
         this.scene.translate(-1,-0.5,-1.8);
-        this.scene.scale(0.2,0.6,0.1);
-        this.triMaterial.apply();
-        this.cube.display();
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix();
-        this.scene.translate(-1,-0.5,-1.8);
         this.scene.scale(0.1,0.1,0.1);
         this.triMaterial.apply();
         this.scircle.display();
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix();
-        this.scene.translate(1,-0.5,-1.8);
-        this.scene.scale(0.2,0.6,0.1);
-        this.triMaterial.apply();
-        this.cube.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
@@ -178,6 +166,8 @@ MySubmarine.prototype.display = function () {
         this.triMaterial.apply();
         this.scircle.display();
     this.scene.popMatrix();
+
+    this.helix.display();
 };
 
 MySubmarine.prototype.getX = function(){
@@ -214,4 +204,9 @@ MySubmarine.prototype.getAngle = function(){
 
 MySubmarine.prototype.setSpeed = function(spd){
     this.speed = spd;
+};
+
+MySubmarine.prototype.update=function(){
+    this.hAngle += this.angInc*this.speed;
+    this.helix.setAngle(this.hAngle)    
 };

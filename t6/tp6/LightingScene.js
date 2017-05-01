@@ -6,6 +6,7 @@ var BOARD_HEIGHT = 4.0;
 var BOARD_A_DIVISIONS = 30;
 var BOARD_B_DIVISIONS = 100;
 
+var FREQ = 10;
 var CLOCKRATE = 0;
 
 var INITIALX = 0;
@@ -191,7 +192,7 @@ LightingScene.prototype.initLights = function () {
     this.lights[4].setQuadraticAttenuation(0.2);
 
 
-    this.setUpdatePeriod(10);
+    this.setUpdatePeriod(FREQ);
 };
 
 LightingScene.prototype.updateLights = function () {
@@ -360,14 +361,9 @@ LightingScene.prototype.doSomething = function ()
 	console.log("Doing something..."); 
 };
 
-LightingScene.prototype.moveSubForward = function(){	
-	this.submarine.setX(this.submarine.getX() - this.speed*(Math.sin(-this.submarine.getAngle())/10));
-	this.submarine.setZ(this.submarine.getZ() + this.speed*(Math.cos(-this.submarine.getAngle())/10));
-};
-
-LightingScene.prototype.moveSubBack = function(){
-	this.submarine.setX(this.submarine.getX() + this.speed*(Math.sin(-this.submarine.getAngle())/10));
-	this.submarine.setZ(this.submarine.getZ() - this.speed*(Math.cos(-this.submarine.getAngle())/10));
+LightingScene.prototype.moveSub = function(){	
+	this.submarine.setX(this.submarine.getX() - this.speed*(Math.sin(-this.submarine.getAngle())/50));
+	this.submarine.setZ(this.submarine.getZ() + this.speed*(Math.cos(-this.submarine.getAngle())/50));
 };
 
 LightingScene.prototype.rotateSubLeft = function(){
@@ -378,11 +374,17 @@ LightingScene.prototype.rotateSubRight = function(){
 	this.submarine.setAngle(this.submarine.getAngle() - this.speed*(Math.PI / 180));
 };
 
+LightingScene.prototype.incSpeed = function(){
+	this.speed += 0.1;
+};
 
+LightingScene.prototype.decSpeed = function(){
+	this.speed -= 0.1;
+};
 
 LightingScene.prototype.update = function (currentTime) {
 	//Makes the Clock operate independently from the Plane by updating only once per second
-	CLOCKRATE = CLOCKRATE + 10;
+	CLOCKRATE = CLOCKRATE + FREQ;
 	if (CLOCKRATE == 600) {
 		if (this.Clock)
 			this.clock.update(currentTime);
@@ -414,6 +416,8 @@ LightingScene.prototype.update = function (currentTime) {
 	else
 	    this.lights[4].disable();
 
+	this.submarine.update();
+	this.moveSub();
 	this.plane.update();
 };
 
