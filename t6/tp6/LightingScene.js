@@ -125,11 +125,18 @@ LightingScene.prototype.init = function (application) {
 	this.planeMaterial.setSpecular(0.1, 0.1, 0.1, 1);
 
 	this.seaAppearance = new CGFappearance(this);
-	this.seaAppearance.setAmbient(0.1953125, 0.14453125, 0.921875, 1);
-	this.seaAppearance.setDiffuse(0.1953125, 0.14453125, 0.921875, 1);
-	this.seaAppearance.setSpecular(0.1953125, 0.14453125, 0.921875, 1);
+	this.seaAppearance.setAmbient(0.4375, 0.4375, 0.60, 1);
+	this.seaAppearance.setDiffuse(0.4375, 0.4375, 0.60, 1);
+	this.seaAppearance.setSpecular(0.4375, 0.4375, 0.60, 1);
 	this.seaAppearance.setShininess(50);
-	this.seaAppearance.loadTexture("../resources/images/sea.png");
+	this.seaAppearance.loadTexture("../resources/images/see.png");
+
+	this.seaAppearance2 = new CGFappearance(this);
+	this.seaAppearance2.setAmbient(0.1953125, 0.14453125, 0.921875, 1);
+	this.seaAppearance2.setDiffuse(0.1953125, 0.14453125, 0.921875, 1);
+	this.seaAppearance2.setSpecular(0.1953125, 0.14453125, 0.921875, 1);
+	this.seaAppearance2.setShininess(50);
+	this.seaAppearance2.loadTexture("../resources/images/sea.png");
 };
 
 LightingScene.prototype.initCameras = function () {
