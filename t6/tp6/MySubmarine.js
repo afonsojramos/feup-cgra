@@ -15,10 +15,12 @@ function MySubmarine(scene,x,y,z) {
     //angle between sub and Z axis
     this.angle = 0;
     
+    this.cylinder = new MyCylinder(this.scene, 26, 20);
     this.cylinderb = new MyCylinderWBases(this.scene, 26);
     this.scircle = new MyLamp(this.scene,26,5);
     this.triangle = new MyTriangle(this.scene);
     this.fin = new MyFin(this.scene);
+    this.cube = new MyUnitCubeQuad(this.scene);
 
     // Materials
     this.triMaterial = new CGFappearance(this.scene);
@@ -133,6 +135,48 @@ MySubmarine.prototype.display = function () {
         this.scene.rotate(Math.PI,0,0,1);
         this.triMaterial.apply();
         this.fin.display();
+    this.scene.popMatrix();
+    //Helix
+    this.scene.pushMatrix();
+        this.scene.translate(1,-0.5,-2);
+        this.scene.scale(0.4,0.4,0.6);
+        this.triMaterial.apply();
+        this.cylinder.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+        this.scene.translate(-1,-0.5,-2);
+        this.scene.scale(0.4,0.4,0.6);
+        this.triMaterial.apply();
+        this.cylinder.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+        this.scene.translate(-1,-0.5,-1.8);
+        this.scene.scale(0.2,0.6,0.1);
+        this.triMaterial.apply();
+        this.cube.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+        this.scene.translate(-1,-0.5,-1.8);
+        this.scene.scale(0.1,0.1,0.1);
+        this.triMaterial.apply();
+        this.scircle.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+        this.scene.translate(1,-0.5,-1.8);
+        this.scene.scale(0.2,0.6,0.1);
+        this.triMaterial.apply();
+        this.cube.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix();
+        this.scene.translate(1,-0.5,-1.8);
+        this.scene.scale(0.1,0.1,0.1);
+        this.triMaterial.apply();
+        this.scircle.display();
     this.scene.popMatrix();
 };
 

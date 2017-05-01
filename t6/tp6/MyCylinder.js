@@ -41,7 +41,9 @@
       	 	this.normals.push(Math.cos(ang),Math.sin(ang),0);
     		
 			this.indices.push(indix+2,indix+1,indix);
+			this.indices.push(indix,indix+1,indix+2);
     		this.indices.push(indix+1,indix+2,indix+3);
+    		this.indices.push(indix+3,indix+2,indix+1);
     		indix+=4;
 
 			this.texCoords.push(i/this.slices, j/this.stacks);
