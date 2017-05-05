@@ -30,11 +30,9 @@ MyInterface.prototype.init = function (application) {
 	// the identifier 'doSomething' must be a function declared as part of that object (i.e. a member of the scene class)
 	// e.g. LightingScene.prototype.doSomething = function () { console.log("Doing something..."); }; 
 
-	this.gui.add(this.scene, 'Clock');
-
 	// add a group of controls (and open/expand by defult)
 
-	var group = this.gui.addFolder("Options");
+	var group = this.gui.addFolder("Lights");
 	group.open();
 
 	// add two check boxes to the group. The identifiers must be members variables of the scene initialized in scene.init as boolean
@@ -45,17 +43,14 @@ MyInterface.prototype.init = function (application) {
 	group.add(this.scene, 'Light3');
 	group.add(this.scene, 'Light4');
 	group.add(this.scene, 'Light5');
-	
 
-	// add a slider
-	// must be a numeric variable of the scene, initialized in scene.init e.g.
-	// this.speed=3;
-	// min and max values can be specified as parameters
+	//Clock Button
+	this.gui.add(this.scene, 'Clock');
 
-	this.gui.add(this.scene, 'speed', -5, 5);
+	this.gui.add(this.scene.submarine, 'speed', -5.0, 5.0);
 
     //select submarine appearances
-	this.gui.add(this.scene, 'SubmarineTexture', ['Metal', 'Angola', 'Stone', 'Concrete', 'Camo']);
+	this.gui.add(this.scene, 'SubmarineTexture', ['Metal', 'Angola', 'Gold', 'Concrete', 'Camo']);
 
 
 	return true;
@@ -82,19 +77,19 @@ MyInterface.prototype.processKeyboard = function (event) {
 	
 	switch (key) {
 		case (65):	
-			this.scene.rotateSubLeft();
+			this.scene.submarine.rotateSubLeft();
 			break;
 		
 		case (87):
-			this.scene.incSpeed();
+			this.scene.submarine.incSpeed();
 			break;
 
-		case (83):
-			this.scene.decSpeed();
+		case (83):	
+			this.scene.submarine.decSpeed();
 			break;
 
 		case (68):
-			this.scene.rotateSubRight();
+			this.scene.submarine.rotateSubRight();
 			break;
 	};
 };

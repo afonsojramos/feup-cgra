@@ -31,7 +31,7 @@ LightingScene.prototype.init = function (application) {
 
 	this.Light1 = true; this.Light2 = true;
 	this.Light3 = true; this.Light4 = true;
-	this.Light5 = true; this.speed = 1;
+	this.Light5 = true;
 	this.clockON = true;
 
 
@@ -62,7 +62,7 @@ LightingScene.prototype.init = function (application) {
 	this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
 
 	// Materials
-	this.subApperances = {};
+	this.submarineAppearances = {};
 
 	this.materialDefault = new CGFappearance(this);
 
@@ -166,16 +166,16 @@ LightingScene.prototype.init = function (application) {
 	this.subMaterial4.setSpecular(1, 1, 1, 1);
 	this.subMaterial4.loadTexture("../resources/images/camo.jpg");
 
-	this.subApperances = [this.subMaterial1, this.subMaterial2, this.subMaterial3, this.pillarAppearance, this.subMaterial4];
-	this.subAppearanceList = {
+	this.submarineAppearances = [this.subMaterial1, this.subMaterial2, this.subMaterial3, this.pillarAppearance, this.subMaterial4];
+	this.submarineAppearanceList = {
 		'Metal': 0,
 		'Angola': 1,
-		'Stone': 2,
+		'Gold': 2,
 		'Concrete': 3,
 		'Camo': 4
 	};
 	this.SubmarineTexture = 'Metal';
-	this.currSubText = this.subAppearanceList[this.SubmarineTexture];
+	this.currSubmarineAppearance = this.submarineAppearanceList[this.SubmarineTexture];
 };
 
 LightingScene.prototype.initCameras = function () {
@@ -292,15 +292,13 @@ LightingScene.prototype.display = function () {
 	//Submarine 
 	this.pushMatrix();
 	this.translate(0, 1, 0);
-	this.translate(this.submarine.getX(), this.submarine.getY(), this.submarine.getZ());
-	this.rotate(this.submarine.getAngle(), 0, 1, 0);
-	this.subApperances[this.currSubText].apply();
+	this.translate(this.submarine.x, this.submarine.y, this.submarine.z);
+	this.rotate(this.submarine.angle, 0, 1, 0);
+	this.submarineAppearances[this.currSubmarineAppearance].apply();
 	this.submarine.display();
 	this.popMatrix();
 
 	// ---- END Primitive drawing section
-
-	this.submarine.setSpeed(this.speed);
 };
 
 LightingScene.prototype.Clock = function () {
@@ -311,39 +309,10 @@ LightingScene.prototype.Clock = function () {
 		this.clockON = true;
 };
 
-LightingScene.prototype.moveSub = function () {
-	this.submarine.setX(this.submarine.getX() - this.speed * (Math.sin(-this.submarine.getAngle()) / 50));
-	this.submarine.setZ(this.submarine.getZ() + this.speed * (Math.cos(-this.submarine.getAngle()) / 50));
-};
-
-LightingScene.prototype.rotateSubLeft = function () {
-	this.submarine.setAngle(this.submarine.getAngle() + this.speed * (Math.PI / 180));
-};
-
-LightingScene.prototype.rotateSubRight = function () {
-	this.submarine.setAngle(this.submarine.getAngle() - this.speed * (Math.PI / 180));
-};
-
-LightingScene.prototype.incSpeed = function () {
-	this.speed += 0.1;
-};
-
-LightingScene.prototype.decSpeed = function () {
-	this.speed -= 0.1;
-};
-
-LightingScene.prototype.hashKey = function (texture) {
-
-	if (texture == "CGRA")
-		return 0;
-
-	if (texture == "Plane")
-		return 1;
-
-};
-
-
 LightingScene.prototype.update = function (currentTime) {
+	this.lastTime = this.lastTime | 0;
+	this.diffTime = currentTime - this.lastTime;
+	this.lastTime = currentTime;
 	//Makes the Clock operate independently from the Plane by updating only once per second
 	CLOCKRATE = CLOCKRATE + FREQ;
 	if (CLOCKRATE == 600) {
@@ -352,7 +321,7 @@ LightingScene.prototype.update = function (currentTime) {
 		CLOCKRATE = 0;
 	}
 
-	this.currSubText = this.subAppearanceList[this.SubmarineTexture];
+	this.currSubmarineAppearance = this.submarineAppearanceList[this.SubmarineTexture];
 
 	if (this.Light1)
 		this.lights[0].enable();
@@ -379,8 +348,6 @@ LightingScene.prototype.update = function (currentTime) {
 	else
 		this.lights[4].disable();
 
-	this.submarine.update();
-	this.moveSub();
-	this.plane.update();
+	this.submarine.update(this.diffTime);
 };
 

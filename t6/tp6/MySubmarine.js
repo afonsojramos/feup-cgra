@@ -10,7 +10,7 @@ function MySubmarine(scene,x,y,z) {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.speed = 0;
+    this.speed = 1.00;
 
     //angle between sub and Z axis
     this.angle = 0;
@@ -150,43 +150,27 @@ MySubmarine.prototype.display = function () {
     this.helix.display();
 };
 
-MySubmarine.prototype.getX = function(){
-  return this.x;  
+MySubmarine.prototype.rotateSubLeft = function () {
+	this.angle = this.angle + this.speed * (Math.PI / 180);
 };
 
-MySubmarine.prototype.getY = function(){
-  return this.y;  
+MySubmarine.prototype.rotateSubRight = function () {
+	this.angle = this.angle - this.speed * (Math.PI / 180);
 };
 
-MySubmarine.prototype.getZ = function(){
-  return this.z;  
+MySubmarine.prototype.incSpeed = function () {
+    if (this.speed < 5)
+	    this.speed += 0.1;
 };
 
-MySubmarine.prototype.setX = function(x){
-    this.x = x;
+MySubmarine.prototype.decSpeed = function () {
+    if (this.speed > -5)
+	    this.speed -= 0.1;
 };
 
-MySubmarine.prototype.setY = function(y){
-    this.y = y;
-};
-
-MySubmarine.prototype.setZ = function(z){
-    this.z = z;
-};
-
-MySubmarine.prototype.setAngle = function(ang){
-    this.angle = ang;
-};
-
-MySubmarine.prototype.getAngle = function(){
-    return this.angle;
-};
-
-MySubmarine.prototype.setSpeed = function(spd){
-    this.speed = spd;
-};
-
-MySubmarine.prototype.update=function(){
+MySubmarine.prototype.update=function(diffTime){
     this.hAngle += this.angInc*this.speed;
-    this.helix.setAngle(this.hAngle)    
+    this.helix.setAngle(this.hAngle);
+    this.x = this.x - this.speed * (Math.sin(-this.angle) / 50);
+	this.z = this.z + this.speed * (Math.cos(-this.angle) / 50);    
 };
