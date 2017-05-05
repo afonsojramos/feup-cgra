@@ -32,7 +32,8 @@ LightingScene.prototype.init = function (application) {
 	this.Light1 = true; this.Light2 = true;
 	this.Light3 = true; this.Light4 = true;
 	this.Light5 = true; this.speed = 1;
-	this.clockON = true;	
+	this.clockON = true;
+	
 
 	this.gl.clearColor(0.1953125, 0.14453125, 0.921875, 1.0);
 	this.gl.clearDepth(100.0);
@@ -138,6 +139,20 @@ LightingScene.prototype.init = function (application) {
 	this.seaAppearance2.setSpecular(0.1953125, 0.14453125, 0.921875, 1);
 	this.seaAppearance2.setShininess(50);
 	this.seaAppearance2.loadTexture("../resources/images/sea.png");
+
+	this.subMaterial1 = new CGFappearance(this);
+    this.subMaterial1.setAmbient(1, 1, 1, 1);
+    this.subMaterial1.setDiffuse(1, 1, 1, 1);
+    this.subMaterial1.setSpecular(1, 1, 1, 1);
+    this.subMaterial1.loadTexture("../resources/images/test-CGRA.png");
+
+    this.subMaterial2 = new CGFappearance(this);
+    this.subMaterial2.setAmbient(1, 1, 1, 1);
+    this.subMaterial2.setDiffuse(1, 1, 1, 1);
+    this.subMaterial2.setSpecular(1, 1, 1, 1);
+    this.subMaterial2.loadTexture("../resources/images/Plane.png");
+
+  
 };
 
 LightingScene.prototype.initCameras = function () {
@@ -348,6 +363,7 @@ LightingScene.prototype.display = function () {
 		this.translate(0,1,0);
 		this.translate(this.submarine.getX(),this.submarine.getY(),this.submarine.getZ());
 		this.rotate(this.submarine.getAngle(),0,1,0);
+		this.subMaterial1.apply();
 		this.submarine.display();
 	this.popMatrix();
 	
@@ -385,6 +401,17 @@ LightingScene.prototype.incSpeed = function(){
 LightingScene.prototype.decSpeed = function(){
 	this.speed -= 0.1;
 };
+
+LightingScene.prototype.hashKey = function (texture) {
+    
+    if (texture == "CGRA")
+        return 0;
+
+    if (texture == "Plane")
+        return 1;
+
+};
+
 
 LightingScene.prototype.update = function (currentTime) {
 	//Makes the Clock operate independently from the Plane by updating only once per second

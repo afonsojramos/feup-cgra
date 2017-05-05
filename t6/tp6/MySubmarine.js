@@ -24,12 +24,6 @@ function MySubmarine(scene,x,y,z) {
     this.fin = new MyFin(this.scene);
     this.helix = new MyHelix(this.scene);
 
-    // Materials
-    this.triMaterial = new CGFappearance(this.scene);
-    this.triMaterial.setAmbient(1, 1, 1, 1);
-    this.triMaterial.setDiffuse(1, 1, 1, 1);
-    this.triMaterial.setSpecular(1, 1, 1, 1);
-    this.triMaterial.loadTexture("../resources/images/Plate.png");
 };
 
 MySubmarine.prototype = Object.create(CGFobject.prototype);
@@ -40,7 +34,6 @@ MySubmarine.prototype.display = function () {
     this.scene.pushMatrix();
         this.scene.translate(0,0,-2.04);
         this.scene.scale(0.73,1,4.08);
-        this.triMaterial.apply();
         this.cylinderb.display();
     this.scene.popMatrix();
     //Body Ends
@@ -48,7 +41,6 @@ MySubmarine.prototype.display = function () {
         this.scene.translate(0,0,-2.04);
         this.scene.translate(0,0,4.08);
         this.scene.scale(0.73,1,0.46);
-        this.triMaterial.apply();
         this.scircle.display();
     this.scene.popMatrix();
     //Body Ends
@@ -56,14 +48,12 @@ MySubmarine.prototype.display = function () {
         this.scene.translate(0,0,-2.04);
         this.scene.scale(0.73,1,0.46);
         this.scene.rotate(Math.PI,1,0,0);
-        this.triMaterial.apply();
         this.scircle.display();
     this.scene.popMatrix();
     //Top
     this.scene.pushMatrix();
         this.scene.rotate(-Math.PI/2,1,0,0);
         this.scene.scale(0.60,0.88,1.57);
-        this.triMaterial.apply();
         this.cylinderb.display();
     this.scene.popMatrix();
     //Vertical Peeking Tube
@@ -71,7 +61,6 @@ MySubmarine.prototype.display = function () {
         this.scene.translate(0,1.57,0.4);
         this.scene.rotate(-Math.PI/2,1,0,0);
         this.scene.scale(0.1,0.1,1);
-        this.triMaterial.apply();
         this.cylinderb.display();
     this.scene.popMatrix();
     //Horizontal Peeking Tube
@@ -79,7 +68,6 @@ MySubmarine.prototype.display = function () {
         this.scene.translate(0,2.57,0.4);
         this.scene.rotate(-Math.PI/2,0,0,0);
         this.scene.scale(0.1,0.1,0.3);
-        this.triMaterial.apply();
         this.cylinderb.display();
     this.scene.popMatrix();
     //Semi Circle Covering Cylinder connection
@@ -87,14 +75,12 @@ MySubmarine.prototype.display = function () {
         this.scene.translate(0,2.57,0.4);
         this.scene.rotate(-3*Math.PI/4,1,0,0);
         this.scene.scale(0.1,0.1,0.1);
-        this.triMaterial.apply();
         this.scircle.display();
     this.scene.popMatrix();
     //Fins
     this.scene.pushMatrix(); //Right
         this.scene.translate(0.5,-0.1,-2.3);
         this.scene.scale(0.6,1,0.5);
-        this.triMaterial.apply();
         this.fin.display();
     this.scene.popMatrix();
 
@@ -102,7 +88,6 @@ MySubmarine.prototype.display = function () {
         this.scene.rotate(Math.PI,0,0,1);
         this.scene.translate(0.5,-0.1,-2.3);
         this.scene.scale(0.6,1,0.5);      
-        this.triMaterial.apply();
         this.fin.display();
     this.scene.popMatrix();
 
@@ -110,7 +95,6 @@ MySubmarine.prototype.display = function () {
         this.scene.rotate(Math.PI/2,0,0,1);
         this.scene.translate(0.7,-0.1,-2.3);
         this.scene.scale(0.6,1,0.5);
-        this.triMaterial.apply();
         this.fin.display();
     this.scene.popMatrix();
 
@@ -118,7 +102,6 @@ MySubmarine.prototype.display = function () {
         this.scene.rotate(3*Math.PI/2,0,0,1);
         this.scene.translate(0.7,-0.1,-2.3);
         this.scene.scale(0.6,1,0.5);      
-        this.triMaterial.apply();
         this.fin.display();
     this.scene.popMatrix();
 
@@ -126,7 +109,6 @@ MySubmarine.prototype.display = function () {
         this.scene.translate(0.4,1.2,0.25);
         this.scene.scale(0.6,1,0.5);
         this.scene.rotate(Math.PI,1,0,0);
-        this.triMaterial.apply();
         this.fin.display();
     this.scene.popMatrix();
 
@@ -135,35 +117,30 @@ MySubmarine.prototype.display = function () {
         this.scene.scale(0.6,1,0.5);
         this.scene.rotate(Math.PI,1,0,0);
         this.scene.rotate(Math.PI,0,0,1);
-        this.triMaterial.apply();
         this.fin.display();
     this.scene.popMatrix();
     //Helix
     this.scene.pushMatrix();
         this.scene.translate(1,-0.5,-2);
         this.scene.scale(0.4,0.4,0.6);
-        this.triMaterial.apply();
         this.cylinder.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
         this.scene.translate(-1,-0.5,-2);
         this.scene.scale(0.4,0.4,0.6);
-        this.triMaterial.apply();
         this.cylinder.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
         this.scene.translate(-1,-0.5,-1.8);
         this.scene.scale(0.1,0.1,0.1);
-        this.triMaterial.apply();
         this.scircle.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
         this.scene.translate(1,-0.5,-1.8);
         this.scene.scale(0.1,0.1,0.1);
-        this.triMaterial.apply();
         this.scircle.display();
     this.scene.popMatrix();
 

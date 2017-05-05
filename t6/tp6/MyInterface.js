@@ -54,6 +54,10 @@ MyInterface.prototype.init = function (application) {
 
 	this.gui.add(this.scene, 'speed', -5, 5);
 
+    //select submarine appearances
+	//this.gui.add(this.scene, 'SubmarineTexture', ['CGRA', 'Plane']);
+
+
 	return true;
 };
 
