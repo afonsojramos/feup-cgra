@@ -30,7 +30,7 @@ MyInterface.prototype.init = function (application) {
 	// the identifier 'doSomething' must be a function declared as part of that object (i.e. a member of the scene class)
 	// e.g. LightingScene.prototype.doSomething = function () { console.log("Doing something..."); }; 
 
-	this.gui.add(this.scene, 'doSomething');
+	this.gui.add(this.scene, 'Clock');
 
 	// add a group of controls (and open/expand by defult)
 
@@ -45,7 +45,7 @@ MyInterface.prototype.init = function (application) {
 	group.add(this.scene, 'Light3');
 	group.add(this.scene, 'Light4');
 	group.add(this.scene, 'Light5');
-	group.add(this.scene, 'Clock');
+	
 
 	// add a slider
 	// must be a numeric variable of the scene, initialized in scene.init e.g.
@@ -75,7 +75,7 @@ MyInterface.prototype.processKeyboard = function (event) {
 	if(event.keyCode >= 90)
 		key -= 32;
 	
-	console.log();
+	
 	switch (key) {
 		case (65):	
 			this.scene.rotateSubLeft();
