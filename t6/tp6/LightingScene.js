@@ -146,19 +146,35 @@ LightingScene.prototype.init = function (application) {
 	this.subMaterial1.setAmbient(1, 1, 1, 1);
 	this.subMaterial1.setDiffuse(1, 1, 1, 1);
 	this.subMaterial1.setSpecular(1, 1, 1, 1);
-	this.subMaterial1.loadTexture("../resources/images/test-CGRA.png");
-	//this.subApperances.push(this.subMaterial1);
+	this.subMaterial1.loadTexture("../resources/images/Plate.png");
 
 	this.subMaterial2 = new CGFappearance(this);
 	this.subMaterial2.setAmbient(1, 1, 1, 1);
 	this.subMaterial2.setDiffuse(1, 1, 1, 1);
 	this.subMaterial2.setSpecular(1, 1, 1, 1);
-	this.subMaterial2.loadTexture("../resources/images/Plate.png");
-	//this.subApperances.push(this.subMaterial2);
+	this.subMaterial2.loadTexture("../resources/images/angola.png");
 
-	this.subApperances = [this.subMaterial1,this.subMaterial2];
-	this.subAppearanceList = { 'CGRA': 0, 'Metal': 1 };
-	this.SubmarineTexture = 'CGRA';
+	this.subMaterial3 = new CGFappearance(this);
+	this.subMaterial3.setAmbient(1, 1, 1, 1);
+	this.subMaterial3.setDiffuse(1, 1, 1, 1);
+	this.subMaterial3.setSpecular(1, 1, 1, 1);
+	this.subMaterial3.loadTexture("../resources/images/gold.jpg");
+
+	this.subMaterial4 = new CGFappearance(this);
+	this.subMaterial4.setAmbient(1, 1, 1, 1);
+	this.subMaterial4.setDiffuse(1, 1, 1, 1);
+	this.subMaterial4.setSpecular(1, 1, 1, 1);
+	this.subMaterial4.loadTexture("../resources/images/camo.jpg");
+
+	this.subApperances = [this.subMaterial1, this.subMaterial2, this.subMaterial3, this.pillarAppearance, this.subMaterial4];
+	this.subAppearanceList = {
+		'Metal': 0,
+		'Angola': 1,
+		'Stone': 2,
+		'Concrete': 3,
+		'Camo': 4
+	};
+	this.SubmarineTexture = 'Metal';
 	this.currSubText = this.subAppearanceList[this.SubmarineTexture];
 };
 
