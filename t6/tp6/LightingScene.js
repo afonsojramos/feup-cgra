@@ -33,7 +33,7 @@ LightingScene.prototype.init = function (application) {
 	this.Light3 = true; this.Light4 = true;
 	this.Light5 = true; this.speed = 1;
 	this.clockON = true;
-	
+
 
 	this.gl.clearColor(0.1953125, 0.14453125, 0.921875, 1.0);
 	this.gl.clearDepth(100.0);
@@ -48,20 +48,22 @@ LightingScene.prototype.init = function (application) {
 	this.rightwall = new Plane(this);
 	this.leftWall = new MyQuad(this, -0.5, 1.5, -0.5, 1.5);
 	this.floor = new MyQuad(this, 0, 10, 0, 12);
-	this.bottom = new Plane(this,16,20,40,20,40);
+	this.bottom = new Plane(this, 16, 20, 40, 20, 40);
 
 	this.prism = new MyPrism(this, 8, 20);
 	this.cylinder = new MyCylinder(this, 8, 20);
 	this.lamp = new MyLamp(this, 10, 20);
 	this.clock = new MyClock(this);
 	this.plane = new MyPaperPlane(this);
-	this.submarine = new MySubmarine(this,INITIALX,INITIALY,INITIALZ);
-	this.cylinderb = new MyCylinderWBases(this,8);
+	this.submarine = new MySubmarine(this, INITIALX, INITIALY, INITIALZ);
+	this.cylinderb = new MyCylinderWBases(this, 8);
 
 	this.boardA = new Plane(this, BOARD_A_DIVISIONS);
 	this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
 
 	// Materials
+	this.subApperances = {};
+
 	this.materialDefault = new CGFappearance(this);
 
 	this.topMaterial = new CGFappearance(this);
@@ -141,18 +143,23 @@ LightingScene.prototype.init = function (application) {
 	this.seaAppearance2.loadTexture("../resources/images/sea.png");
 
 	this.subMaterial1 = new CGFappearance(this);
-    this.subMaterial1.setAmbient(1, 1, 1, 1);
-    this.subMaterial1.setDiffuse(1, 1, 1, 1);
-    this.subMaterial1.setSpecular(1, 1, 1, 1);
-    this.subMaterial1.loadTexture("../resources/images/test-CGRA.png");
+	this.subMaterial1.setAmbient(1, 1, 1, 1);
+	this.subMaterial1.setDiffuse(1, 1, 1, 1);
+	this.subMaterial1.setSpecular(1, 1, 1, 1);
+	this.subMaterial1.loadTexture("../resources/images/test-CGRA.png");
+	//this.subApperances.push(this.subMaterial1);
 
-    this.subMaterial2 = new CGFappearance(this);
-    this.subMaterial2.setAmbient(1, 1, 1, 1);
-    this.subMaterial2.setDiffuse(1, 1, 1, 1);
-    this.subMaterial2.setSpecular(1, 1, 1, 1);
-    this.subMaterial2.loadTexture("../resources/images/Plane.png");
+	this.subMaterial2 = new CGFappearance(this);
+	this.subMaterial2.setAmbient(1, 1, 1, 1);
+	this.subMaterial2.setDiffuse(1, 1, 1, 1);
+	this.subMaterial2.setSpecular(1, 1, 1, 1);
+	this.subMaterial2.loadTexture("../resources/images/Plate.png");
+	//this.subApperances.push(this.subMaterial2);
 
-  
+	this.subApperances = [this.subMaterial1,this.subMaterial2];
+	this.subAppearanceList = { 'CGRA': 0, 'Metal': 1 };
+	this.SubmarineTexture = 'CGRA';
+	this.currSubText = this.subAppearanceList[this.SubmarineTexture];
 };
 
 LightingScene.prototype.initCameras = function () {
@@ -160,54 +167,54 @@ LightingScene.prototype.initCameras = function () {
 };
 
 LightingScene.prototype.initLights = function () {
-    this.setGlobalAmbientLight(0.5, 0.5, 0.5, 1.0);
+	this.setGlobalAmbientLight(0.5, 0.5, 0.5, 1.0);
 
-    // Positions for five lights
-    this.lights[0].setPosition(4, 6, 1, 1);
-    this.lights[0].setVisible(true); // show marker on light position (different from enabled)
+	// Positions for five lights
+	this.lights[0].setPosition(4, 6, 1, 1);
+	this.lights[0].setVisible(true); // show marker on light position (different from enabled)
 
-    this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
-    this.lights[1].setVisible(true); // show marker on light position (different from enabled)
+	this.lights[1].setPosition(10.5, 6.0, 1.0, 1.0);
+	this.lights[1].setVisible(true); // show marker on light position (different from enabled)
 
-    this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
-    this.lights[2].setVisible(true); // show marker on light position (different from enabled)
+	this.lights[2].setPosition(10.5, 6.0, 5.0, 1.0);
+	this.lights[2].setVisible(true); // show marker on light position (different from enabled)
 
-    this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
-    this.lights[3].setVisible(true); // show marker on light position (different from enabled)
+	this.lights[3].setPosition(4, 6.0, 5.0, 1.0);
+	this.lights[3].setVisible(true); // show marker on light position (different from enabled)
 
-    this.lights[4].setPosition(0, 7.0, 7.5, 1.0);
-    this.lights[4].setVisible(true); // show marker on light position (different from enabled)
+	this.lights[4].setPosition(0, 7.0, 7.5, 1.0);
+	this.lights[4].setVisible(true); // show marker on light position (different from enabled)
 
-    this.lights[0].setAmbient(0, 0, 0, 1);
-    this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[0].setSpecular(1, 1, 0, 1);
-
-
-    this.lights[1].setAmbient(0, 0, 0, 1);
-    this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
-
-    this.lights[2].setAmbient(0, 0, 0, 1);
-    this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[2].setSpecular(1, 1, 1, 1);
-    this.lights[2].setConstantAttenuation(0);
-    this.lights[2].setLinearAttenuation(1);
-    this.lights[2].setQuadraticAttenuation(0);
+	this.lights[0].setAmbient(0, 0, 0, 1);
+	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
+	this.lights[0].setSpecular(1, 1, 0, 1);
 
 
-    this.lights[3].setAmbient(0, 0, 0, 1);
-    this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[3].setSpecular(1, 1, 0, 1);
-    this.lights[3].setConstantAttenuation(0);
-    this.lights[3].setLinearAttenuation(0);
-    this.lights[3].setQuadraticAttenuation(0.2);
+	this.lights[1].setAmbient(0, 0, 0, 1);
+	this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);
+
+	this.lights[2].setAmbient(0, 0, 0, 1);
+	this.lights[2].setDiffuse(1.0, 1.0, 1.0, 1.0);
+	this.lights[2].setSpecular(1, 1, 1, 1);
+	this.lights[2].setConstantAttenuation(0);
+	this.lights[2].setLinearAttenuation(1);
+	this.lights[2].setQuadraticAttenuation(0);
 
 
-    this.lights[4].setAmbient(0, 0, 0, 1);
-    this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
-    this.lights[4].setQuadraticAttenuation(0.2);
+	this.lights[3].setAmbient(0, 0, 0, 1);
+	this.lights[3].setDiffuse(1.0, 1.0, 1.0, 1.0);
+	this.lights[3].setSpecular(1, 1, 0, 1);
+	this.lights[3].setConstantAttenuation(0);
+	this.lights[3].setLinearAttenuation(0);
+	this.lights[3].setQuadraticAttenuation(0.2);
 
 
-    this.setUpdatePeriod(FREQ);
+	this.lights[4].setAmbient(0, 0, 0, 1);
+	this.lights[4].setDiffuse(1.0, 1.0, 1.0, 1.0);
+	this.lights[4].setQuadraticAttenuation(0.2);
+
+
+	this.setUpdatePeriod(FREQ);
 };
 
 LightingScene.prototype.updateLights = function () {
@@ -240,175 +247,82 @@ LightingScene.prototype.display = function () {
 
 	// ---- END Background, camera and axis setup
 
-
-	// ---- BEGIN Geometric transformation section
-
-	// ---- END Geometric transformation section
-
-
 	// ---- BEGIN Primitive drawing section
-	/*
-		// Floor
-		this.pushMatrix();
-			this.translate(7.5, 0, 7.5);
-			this.rotate(-90 * degToRad, 1, 0, 0);
-			this.scale(15, 15, 0.2);
-			this.floorAppearance.apply();
-			this.floor.display();
-		this.popMatrix();
-	
-		// Left Wall
-		this.pushMatrix();
-			this.windowAppearance.apply();
-			this.translate(0, 4, 7.5);
-			this.rotate(90 * degToRad, 0, 1, 0);
-			this.scale(15, 8, 0.2);
-			this.leftWall.display();
-		this.popMatrix();
-	
-		// Plane Wall
-		this.pushMatrix();
-			this.translate(7.5, 4, 0);
-			this.scale(15, 8, 0.2);
-			this.wallMaterial.apply();
-			this.rightwall.display();
-		this.popMatrix();
-	
-		// First Table
-		this.pushMatrix();
-			this.translate(5, 0, 8);
-			this.topMaterial.apply();
-			this.table.display();
-		this.popMatrix();
-	
-		// Second Table
-		this.pushMatrix();
-			this.translate(12, 0, 8);
-			this.topMaterial.apply();
-			this.table.display();
-		this.popMatrix();
-	
-		// Board A
-		this.pushMatrix();
-			this.translate(4, 4.5, 0.2);
-			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
-			this.slidesAppearance.apply();
-			this.boardA.display();
-		this.popMatrix();
-	
-		// Board B
-		this.pushMatrix();
-			this.translate(10.5, 4.5, 0.2);
-			this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
-			this.boardAppearance.apply();
-			this.boardB.display();
-		this.popMatrix();
-	
-		// Prims
-		this.pushMatrix();
-			this.rotate(90 * degToRad,1,0,0);
-			this.translate(1,1,-8);
-			this.scale(1,1,8);
-			this.pillarAppearance.apply();
-			this.prism.display();
-		this.popMatrix();
-	*/
-		// Cylinder
-		this.pushMatrix();
-			this.rotate(90 * degToRad,1,0,0);
-			this.translate(8,-0.1,-6);
-			this.scale(0.1,0.1,6);
-			this.pillarAppearance.apply();
-			this.cylinderb.display();
-		this.popMatrix();
-
-		// Cylinder Bases
-
-	/*
-		//Lamp
-		this.pushMatrix();
-			this.translate(0, 8.0, 7.5);
-			this.rotate(Math.PI/2,1,0,0);
-			this.scale(0.5,0.5,0.5);
-			this.lamp.display();
-		this.popMatrix();
-	
-		//Plane
-		this.pushMatrix();
-			this.planeMaterial.apply();
-			this.translate(this.plane.distance, this.plane.height, 8);
-			this.rotate(this.plane.angle,0,0,1);
-			this.plane.display();
-		this.popMatrix();
-	*/
+	// Cylinder
+	this.pushMatrix();
+	this.rotate(90 * degToRad, 1, 0, 0);
+	this.translate(8, -0.1, -6);
+	this.scale(0.1, 0.1, 6);
+	this.pillarAppearance.apply();
+	this.cylinderb.display();
+	this.popMatrix();
 
 	// Seabottom
 	this.pushMatrix();
-		this.rotate(-90 * degToRad, 1, 0, 0);
-		this.scale(50, 50, 0.2);
-		this.seaAppearance.apply();
-		this.bottom.display();
+	this.rotate(-90 * degToRad, 1, 0, 0);
+	this.scale(50, 50, 0.2);
+	this.seaAppearance.apply();
+	this.bottom.display();
 	this.popMatrix();
 
 	//Clock
 	this.pushMatrix();
-		this.translate(8, 5, 0);
-		this.scale(1, 1, 1);
-		this.pillarAppearance.apply();
-		this.clock.display();
+	this.translate(8, 5, 0);
+	this.scale(1, 1, 1);
+	this.pillarAppearance.apply();
+	this.clock.display();
 	this.popMatrix();
 
 	//Submarine 
 	this.pushMatrix();
-		this.translate(0,1,0);
-		this.translate(this.submarine.getX(),this.submarine.getY(),this.submarine.getZ());
-		this.rotate(this.submarine.getAngle(),0,1,0);
-		this.subMaterial1.apply();
-		this.submarine.display();
+	this.translate(0, 1, 0);
+	this.translate(this.submarine.getX(), this.submarine.getY(), this.submarine.getZ());
+	this.rotate(this.submarine.getAngle(), 0, 1, 0);
+	this.subApperances[this.currSubText].apply();
+	this.submarine.display();
 	this.popMatrix();
-	
-    // ---- END Primitive drawing section
+
+	// ---- END Primitive drawing section
 
 	this.submarine.setSpeed(this.speed);
 };
 
-LightingScene.prototype.Clock = function ()
-{ 	
-	
-	if(this.clockON == true)
+LightingScene.prototype.Clock = function () {
+
+	if (this.clockON == true)
 		this.clockON = false;
 	else
-		this.clockON = true; 
+		this.clockON = true;
 };
 
-LightingScene.prototype.moveSub = function(){	
-	this.submarine.setX(this.submarine.getX() - this.speed*(Math.sin(-this.submarine.getAngle())/50));
-	this.submarine.setZ(this.submarine.getZ() + this.speed*(Math.cos(-this.submarine.getAngle())/50));
+LightingScene.prototype.moveSub = function () {
+	this.submarine.setX(this.submarine.getX() - this.speed * (Math.sin(-this.submarine.getAngle()) / 50));
+	this.submarine.setZ(this.submarine.getZ() + this.speed * (Math.cos(-this.submarine.getAngle()) / 50));
 };
 
-LightingScene.prototype.rotateSubLeft = function(){
-	this.submarine.setAngle(this.submarine.getAngle() + this.speed*(Math.PI / 180));
+LightingScene.prototype.rotateSubLeft = function () {
+	this.submarine.setAngle(this.submarine.getAngle() + this.speed * (Math.PI / 180));
 };
 
-LightingScene.prototype.rotateSubRight = function(){
-	this.submarine.setAngle(this.submarine.getAngle() - this.speed*(Math.PI / 180));
+LightingScene.prototype.rotateSubRight = function () {
+	this.submarine.setAngle(this.submarine.getAngle() - this.speed * (Math.PI / 180));
 };
 
-LightingScene.prototype.incSpeed = function(){
+LightingScene.prototype.incSpeed = function () {
 	this.speed += 0.1;
 };
 
-LightingScene.prototype.decSpeed = function(){
+LightingScene.prototype.decSpeed = function () {
 	this.speed -= 0.1;
 };
 
 LightingScene.prototype.hashKey = function (texture) {
-    
-    if (texture == "CGRA")
-        return 0;
 
-    if (texture == "Plane")
-        return 1;
+	if (texture == "CGRA")
+		return 0;
+
+	if (texture == "Plane")
+		return 1;
 
 };
 
@@ -422,30 +336,32 @@ LightingScene.prototype.update = function (currentTime) {
 		CLOCKRATE = 0;
 	}
 
+	this.currSubText = this.subAppearanceList[this.SubmarineTexture];
+
 	if (this.Light1)
-	    this.lights[0].enable();
+		this.lights[0].enable();
 	else
-	    this.lights[0].disable();
+		this.lights[0].disable();
 
 	if (this.Light2)
-	    this.lights[1].enable();
+		this.lights[1].enable();
 	else
-	    this.lights[1].disable();
+		this.lights[1].disable();
 
 	if (this.Light3)
-	    this.lights[2].enable();
+		this.lights[2].enable();
 	else
-	    this.lights[2].disable();
+		this.lights[2].disable();
 
 	if (this.Light4)
-	    this.lights[3].enable();
+		this.lights[3].enable();
 	else
-	    this.lights[3].disable();
+		this.lights[3].disable();
 
 	if (this.Light5)
-	    this.lights[4].enable();
+		this.lights[4].enable();
 	else
-	    this.lights[4].disable();
+		this.lights[4].disable();
 
 	this.submarine.update();
 	this.moveSub();
