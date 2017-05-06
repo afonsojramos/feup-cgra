@@ -34,7 +34,7 @@ LightingScene.prototype.init = function (application) {
 	this.Light5 = true;
 	this.clockON = true;
 
-
+	
 	this.gl.clearColor(0.1953125, 0.14453125, 0.921875, 1.0);
 	this.gl.clearDepth(100.0);
 	this.gl.enable(this.gl.DEPTH_TEST);
@@ -310,9 +310,12 @@ LightingScene.prototype.Clock = function () {
 };
 
 LightingScene.prototype.update = function (currentTime) {
-	this.lastTime = this.lastTime | 0;
+	
+	
+	
+	/*this.lastTime = this.lastTime | 0;
 	this.diffTime = currentTime - this.lastTime;
-	this.lastTime = currentTime;
+	this.lastTime = currentTime;*/
 	//Makes the Clock operate independently from the Plane by updating only once per second
 	CLOCKRATE = CLOCKRATE + FREQ;
 	if (CLOCKRATE == 600) {
@@ -348,6 +351,6 @@ LightingScene.prototype.update = function (currentTime) {
 	else
 		this.lights[4].disable();
 
-	this.submarine.update(this.diffTime);
+	this.submarine.update(currentTime);
 };
 

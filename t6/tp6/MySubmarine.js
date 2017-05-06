@@ -6,6 +6,9 @@
 function MySubmarine(scene,x,y,z) {
     CGFobject.call(this, scene);
 
+    this.startTime = 0;
+    this.delta = 0;
+
     //variables to change in order to move
     this.x = x;
     this.y = y;
@@ -151,26 +154,31 @@ MySubmarine.prototype.display = function () {
 };
 
 MySubmarine.prototype.rotateSubLeft = function () {
-	this.angle = this.angle + this.speed * (Math.PI / 180);
+	this.angle = this.angle + this.speed / this.delta * (Math.PI / 180);
 };
 
 MySubmarine.prototype.rotateSubRight = function () {
-	this.angle = this.angle - this.speed * (Math.PI / 180);
+	this.angle = this.angle - this.speed / this.delta * (Math.PI / 180);
 };
 
 MySubmarine.prototype.incSpeed = function () {
     if (this.speed < 5)
-	    this.speed += 0.1;
+	    this.speed += 0.1 / this.delta;
 };
 
 MySubmarine.prototype.decSpeed = function () {
     if (this.speed > -5)
-	    this.speed -= 0.1;
+	    this.speed -= 0.1 / this.delta;
 };
 
-MySubmarine.prototype.update=function(diffTime){
+MySubmarine.prototype.update=function(currentTime){
+
+    this.delta = currentTime - this.startTime;
+    this.delta = this.delta / 10; 
+    this.startTime = currentTime;
+     
     this.hAngle += this.angInc*this.speed;
     this.helix.setAngle(this.hAngle);
-    this.x = this.x - this.speed * (Math.sin(-this.angle) / 50);
-	this.z = this.z + this.speed * (Math.cos(-this.angle) / 50);    
+    this.x = this.x - this.speed / this.delta * (Math.sin(-this.angle) / 50);
+    this.z = this.z + this.speed / this.delta * (Math.cos(-this.angle) / 50);
 };
