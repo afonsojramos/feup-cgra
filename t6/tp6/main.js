@@ -24,6 +24,7 @@ serialInclude([
 	'MyTriPrism.js',
 	'MyFin.js',
 	'MyHelix.js',
+	'MyTarget.js',
 
 
 	main = function () {

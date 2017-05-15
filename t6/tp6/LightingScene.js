@@ -57,6 +57,7 @@ LightingScene.prototype.init = function (application) {
 	this.plane = new MyPaperPlane(this);
 	this.submarine = new MySubmarine(this, INITIALX, INITIALY, INITIALZ);
 	this.cylinderb = new MyCylinderWBases(this, 8);
+	this.targets = [this.target1 = new MyTarget(this,5,5,5), this.target2 = new MyTarget(this,5,5,0)];
 
 	this.boardA = new Plane(this, BOARD_A_DIVISIONS);
 	this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
@@ -297,6 +298,10 @@ LightingScene.prototype.display = function () {
 	this.submarineAppearances[this.currSubmarineAppearance].apply();
 	this.submarine.display();
 	this.popMatrix();
+
+	for(var count = 0 ; count < this.targets.length ; count++){
+		this.targets[count].display();
+	}
 
 	// ---- END Primitive drawing section
 };
