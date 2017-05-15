@@ -15,8 +15,12 @@ function MySubmarine(scene,x,y,z) {
     this.z = z;
     this.speed = 1.00;
 
-    //angle between sub and Z axis
-    this.angle = 0;
+    //angle of rotation around Y axis (starts in the direction of Z axis)
+    this.angleY = 0;
+
+    //angle of rotation around X axis (starts in the direction of Z axis)
+    this.angleX = 0;
+
     this.hAngle = 0;
     this.angInc = Math.PI/30;
     
@@ -154,11 +158,19 @@ MySubmarine.prototype.display = function () {
 };
 
 MySubmarine.prototype.rotateSubLeft = function () {
-	this.angle = this.angle + this.speed / this.delta * (Math.PI / 180);
+    this.angleY = this.angleY + this.speed / this.delta * (Math.PI / 180);
 };
 
 MySubmarine.prototype.rotateSubRight = function () {
-	this.angle = this.angle - this.speed / this.delta * (Math.PI / 180);
+    this.angleY = this.angleY - this.speed / this.delta * (Math.PI / 180);
+};
+
+MySubmarine.prototype.emerge = function () {
+    this.angleX = this.angleX + this.speed / this.delta * (Math.PI / 180);
+};
+
+MySubmarine.prototype.dive = function () {
+    this.angleX = this.angleX - this.speed / this.delta * (Math.PI / 180);
 };
 
 MySubmarine.prototype.incSpeed = function () {
@@ -179,6 +191,7 @@ MySubmarine.prototype.update=function(currentTime){
      
     this.hAngle += this.angInc*this.speed;
     this.helix.setAngle(this.hAngle);
-    this.x = this.x - this.speed / this.delta * (Math.sin(-this.angle) / 50);
-    this.z = this.z + this.speed / this.delta * (Math.cos(-this.angle) / 50);
+    this.x = this.x - this.speed / this.delta * (Math.sin(-this.angleY) / 50);
+    this.y = this.y + this.speed / this.delta * (Math.sin(-this.angleX) / 50);
+    this.z = this.z + this.speed / this.delta * (Math.cos(-this.angleY) / 50);
 };

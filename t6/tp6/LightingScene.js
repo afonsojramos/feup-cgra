@@ -294,7 +294,8 @@ LightingScene.prototype.display = function () {
 	this.pushMatrix();
 	this.translate(0, 1, 0);
 	this.translate(this.submarine.x, this.submarine.y, this.submarine.z);
-	this.rotate(this.submarine.angle, 0, 1, 0);
+	this.rotate(this.submarine.angleY, 0, 1, 0);
+	this.rotate(this.submarine.angleX, 1, 0, 0);
 	this.submarineAppearances[this.currSubmarineAppearance].apply();
 	this.submarine.display();
 	this.popMatrix();

@@ -62,7 +62,8 @@ MyInterface.prototype.init = function (application) {
  */
 MyInterface.prototype.processKeyboard = function (event) {
 	
-	var key = event.keyCode;
+    var key = event.keyCode;
+ 
 
 	// call CGFinterface default code (omit if you want to override)
 	CGFinterface.prototype.processKeyboard.call(this, event);
@@ -76,21 +77,29 @@ MyInterface.prototype.processKeyboard = function (event) {
 	
 	
 	switch (key) {
-		case (65):	
+		case (65): //A
 			this.scene.submarine.rotateSubLeft();
 			break;
 		
-		case (87):
-			this.scene.submarine.incSpeed();
+		case (87): //W
+		    this.scene.submarine.incSpeed();
 			break;
 
-		case (83):	
-			this.scene.submarine.decSpeed();
+		case (83): //S
+		    this.scene.submarine.decSpeed();
 			break;
 
-		case (68):
+		case (68): //D
 			this.scene.submarine.rotateSubRight();
 			break;
+
+	    case (69): //E
+	        this.scene.submarine.dive();
+	        break;
+
+	    case (81): //Q
+	        this.scene.submarine.emerge();
+	        break;
 	};
 };
 
