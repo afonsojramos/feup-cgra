@@ -78,7 +78,11 @@ MyInterface.prototype.processKeyboard = function (event) {
 	
 	switch (key) {
 		case (65): //A
-			this.scene.submarine.rotateSubLeft();
+			{
+				this.scene.submarine.rudderAngleLeft();
+				this.scene.submarine.rotateSubLeft();
+				this.scene.submarine.setPressed(-1);
+			}
 			break;
 		
 		case (87): //W
@@ -90,7 +94,11 @@ MyInterface.prototype.processKeyboard = function (event) {
 			break;
 
 		case (68): //D
-			this.scene.submarine.rotateSubRight();
+			{
+				this.scene.submarine.rudderAngleRight();
+				this.scene.submarine.rotateSubRight();
+				this.scene.submarine.setPressed(1);
+			}
 			break;
 
 	    case (69): //E
@@ -101,5 +109,11 @@ MyInterface.prototype.processKeyboard = function (event) {
 	        this.scene.submarine.emerge();
 	        break;
 	};
+
+	var self = this;
+
+	window.onkeyup = function (e) {
+		self.scene.submarine.setPressed(0);
+	}
 };
 

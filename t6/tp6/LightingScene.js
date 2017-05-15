@@ -49,6 +49,7 @@ LightingScene.prototype.init = function (application) {
 	this.leftWall = new MyQuad(this, -0.5, 1.5, -0.5, 1.5);
 	this.floor = new MyQuad(this, 0, 10, 0, 12);
 	this.bottom = new Plane(this, 16, 20, 40, 20, 40);
+	this.fin = new MyFin(this);
 
 	this.prism = new MyPrism(this, 8, 20);
 	this.cylinder = new MyCylinder(this, 8, 20);
@@ -57,7 +58,7 @@ LightingScene.prototype.init = function (application) {
 	this.plane = new MyPaperPlane(this);
 	this.submarine = new MySubmarine(this, INITIALX, INITIALY, INITIALZ);
 	this.cylinderb = new MyCylinderWBases(this, 8);
-	this.targets = [this.target1 = new MyTarget(this,5,5,5), this.target2 = new MyTarget(this,5,5,0)];
+	this.targets = [this.target1 = new MyTarget(this,5,0.5,-5), this.target2 = new MyTarget(this,5,0.5,10)];
 
 	this.boardA = new Plane(this, BOARD_A_DIVISIONS);
 	this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
