@@ -92,82 +92,56 @@ MySubmarine.prototype.display = function () {
     this.scircle.display();
     this.scene.popMatrix();
     //Fins
-    this.scene.pushMatrix(); //Right
+    this.scene.pushMatrix(); //Stern
     this.scene.translate(0, 0, -1.8);
     this.scene.rotate(-this.sternAngle, 1, 0, 0);
-    this.scene.translate(0.5, -0.1, -0.5);
-    this.scene.scale(0.6, 1, 0.5);
+    this.scene.translate(0, -0.1, -0.5);
+    this.scene.scale(0.8, 1, 0.5);
     this.fin.display();
     this.scene.popMatrix();
 
-    this.scene.pushMatrix(); //Left
+    this.scene.pushMatrix(); //Rudder
     this.scene.translate(0, 0, -1.8);
-    this.scene.rotate(-this.sternAngle, 1, 0, 0);
-    this.scene.rotate(-Math.PI, 0, 0, 1);
-    this.scene.translate(0.5, -0.1, -0.5);
-    this.scene.scale(0.6, 1, 0.5);
+    this.scene.rotate(this.rudderAngle, 0, 1, 0);
+    this.scene.rotate(Math.PI / 2, 0, 0, 1);
+    this.scene.translate(0, -0.1, -0.5);
+    this.scene.scale(1, 1, 0.5);
     this.fin.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix(); //Top
-    this.scene.translate(0, 0, -1.8);
-    this.scene.rotate(this.rudderAngle, 0, 1, 0);
-    this.scene.rotate(Math.PI / 2, 0, 0, 1);
-    this.scene.translate(0.7, -0.1, -0.5);
-    this.scene.scale(0.6, 1, 0.5);
+    this.scene.translate(0, 1.2, -0.25);
+    this.scene.scale(0.7, 1, 0.5);
     this.fin.display();
     this.scene.popMatrix();
 
-    this.scene.pushMatrix(); //Bottom
-    this.scene.translate(0, 0, -1.8);
-    this.scene.rotate(this.rudderAngle, 0, 1, 0);
-    this.scene.rotate(3 * Math.PI / 2, 0, 0, 1);
-    this.scene.translate(0.7, -0.1, -0.5);
-    this.scene.scale(0.6, 1, 0.5);
-    this.fin.display();
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix(); //Top Right
-    this.scene.translate(0.4, 1.2, 0.25);
-    this.scene.scale(0.6, 1, 0.5);
-    this.scene.rotate(Math.PI, 1, 0, 0);
-    this.fin.display();
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix(); //Top Left
-    this.scene.translate(-0.4, 1, 0.25);
-    this.scene.scale(0.6, 1, 0.5);
-    this.scene.rotate(Math.PI, 1, 0, 0);
-    this.scene.rotate(Math.PI, 0, 0, 1);
-    this.fin.display();
-    this.scene.popMatrix();
-    //Helix
+    //Helix Tube
     this.scene.pushMatrix();
-    this.scene.translate(1, -0.5, -2);
-    this.scene.scale(0.4, 0.4, 0.6);
-    this.cylinder.display();
-    this.scene.popMatrix();
-
-    this.scene.pushMatrix();
-    this.scene.translate(-1, -0.5, -2);
+    this.scene.translate(1, -0.5, -1.8);
     this.scene.scale(0.4, 0.4, 0.6);
     this.cylinder.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
     this.scene.translate(-1, -0.5, -1.8);
+    this.scene.scale(0.4, 0.4, 0.6);
+    this.cylinder.display();
+    this.scene.popMatrix();
+    //Helix Covers
+    this.scene.pushMatrix();
+    this.scene.translate(-1, -0.5, -1.6);
     this.scene.scale(0.1, 0.1, 0.1);
     this.scene.rotate(Math.PI, 0, 0, 1);
     this.scircle.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix();
-    this.scene.translate(1, -0.5, -1.8);
+    this.scene.translate(1, -0.5, -1.6);
     this.scene.scale(0.1, 0.1, 0.1);
     this.scene.rotate(Math.PI, 0, 0, 1);
     this.scircle.display();
     this.scene.popMatrix();
-
+    //Helixes
     this.helix.display();
 };
 

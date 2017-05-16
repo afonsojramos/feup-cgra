@@ -159,6 +159,12 @@ LightingScene.prototype.init = function (application) {
 	this.subMaterial4.setSpecular(1, 1, 1, 1);
 	this.subMaterial4.loadTexture("../resources/images/camo.jpg");
 
+	this.targetMaterial = new CGFappearance(this);
+	this.targetMaterial.setAmbient(1, 1, 1, 1);
+	this.targetMaterial.setDiffuse(1, 1, 1, 1);
+	this.targetMaterial.setSpecular(1, 1, 1, 1);
+	this.targetMaterial.loadTexture("../resources/images/Portugal.png");
+
 	this.submarineAppearances = [this.subMaterial1, this.subMaterial2, this.subMaterial3, this.pillarAppearance, this.subMaterial4];
 	this.submarineAppearanceList = {
 		'Metal': 0,
@@ -293,6 +299,7 @@ LightingScene.prototype.display = function () {
 	this.popMatrix();
 
 	for(var count = 0 ; count < this.targets.length ; count++){
+		this.targetMaterial.apply();
 		this.targets[count].display();
 	}
 
