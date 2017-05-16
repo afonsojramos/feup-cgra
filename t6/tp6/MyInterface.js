@@ -81,7 +81,7 @@ MyInterface.prototype.processKeyboard = function (event) {
 			{
 				this.scene.submarine.rudderAngleLeft();
 				this.scene.submarine.rotateSubLeft();
-				this.scene.submarine.setPressed(1);
+				this.scene.submarine.setPressed(true);
 			}
 			break;
 		
@@ -97,7 +97,7 @@ MyInterface.prototype.processKeyboard = function (event) {
 			{
 				this.scene.submarine.rudderAngleRight();
 				this.scene.submarine.rotateSubRight();
-				this.scene.submarine.setPressed(1);
+				this.scene.submarine.setPressed(true);
 			}
 			break;
 
@@ -105,7 +105,7 @@ MyInterface.prototype.processKeyboard = function (event) {
 			{
 				this.scene.submarine.sternAngleUp();
 				this.scene.submarine.emerge();
-				this.scene.submarine.setPressed(1);
+				this.scene.submarine.setPressed(true);
 			}
 	        break;
 
@@ -113,7 +113,7 @@ MyInterface.prototype.processKeyboard = function (event) {
 			{
 				this.scene.submarine.sternAngleDown();
 				this.scene.submarine.dive();
-				this.scene.submarine.setPressed(1);
+				this.scene.submarine.setPressed(true);
 			}
 	        break;
 		case (80): //P
@@ -128,7 +128,7 @@ MyInterface.prototype.processKeyboard = function (event) {
 	var self = this;
 
 	window.onkeyup = function (e) {
-		self.scene.submarine.setPressed(0);
+		self.scene.submarine.setPressed(false);
 	}
 };
 

@@ -13,7 +13,7 @@ function MySubmarine(scene, x, y, z) {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.speed = 1.00;
+    this.speed = 0.00;
 
     //angle of rotation around Y axis (starts in the direction of Z axis)
     this.angleY = 0;
@@ -219,7 +219,7 @@ MySubmarine.prototype.sternAngleDown = function () {
 }
 
 MySubmarine.prototype.AngleReset = function () {
-    if (this.keypressed == 0) {
+    if (this.keypressed == false) {
         if (this.rudderAngle > 0)
             this.rudderAngle -= 2 * (Math.PI / 180);
         else if (this.rudderAngle < 0)
@@ -267,7 +267,7 @@ MySubmarine.prototype.setPressed = function (state) {
 MySubmarine.prototype.update = function (currentTime) {
 
     this.delta = currentTime - this.startTime;
-    this.delta = this.delta / 1000;
+    this.delta = this.delta / 10;
     this.startTime = currentTime;
 
     this.hAngle += this.angInc * this.speed;

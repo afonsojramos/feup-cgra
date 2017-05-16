@@ -1,11 +1,5 @@
 var degToRad = Math.PI / 180.0;
 
-var BOARD_WIDTH = 6.0;
-var BOARD_HEIGHT = 4.0;
-
-var BOARD_A_DIVISIONS = 30;
-var BOARD_B_DIVISIONS = 100;
-
 var FREQ = 10;
 var CLOCKRATE = 0;
 
@@ -59,9 +53,6 @@ LightingScene.prototype.init = function (application) {
 	this.submarine = new MySubmarine(this, INITIALX, INITIALY, INITIALZ);
 	this.cylinderb = new MyCylinderWBases(this, 8);
 	this.targets = [this.target1 = new MyTarget(this,5,0.5,-5), this.target2 = new MyTarget(this,5,0.5,10)];
-
-	this.boardA = new Plane(this, BOARD_A_DIVISIONS);
-	this.boardB = new Plane(this, BOARD_B_DIVISIONS, 0, 1, 0, 1);
 
 	// Materials
 	this.submarineAppearances = {};
