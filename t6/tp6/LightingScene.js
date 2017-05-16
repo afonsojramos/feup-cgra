@@ -325,7 +325,7 @@ LightingScene.prototype.update = function (currentTime) {
 	this.lastTime = currentTime;*/
 	//Makes the Clock operate independently from the Plane by updating only once per second
 	CLOCKRATE = CLOCKRATE + FREQ;
-	if (CLOCKRATE == 600) {
+	if (CLOCKRATE >= 600) {
 		if (this.clockON)
 			this.clock.update(currentTime);
 		CLOCKRATE = 0;
@@ -360,4 +360,3 @@ LightingScene.prototype.update = function (currentTime) {
 
 	this.submarine.update(currentTime);
 };
-

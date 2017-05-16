@@ -8,7 +8,6 @@ function MySubmarine(scene, x, y, z) {
 
     this.startTime = 0;
     this.delta = 0;
-    //this.keypressed = 0;
 
     //variables to change in order to move
     this.x = x;
@@ -22,6 +21,10 @@ function MySubmarine(scene, x, y, z) {
     //angle of rotation around X axis (starts in the direction of Z axis)
     this.angleX = 0;
     this.rudderAngle = 0;
+    this.sternAngle = 0;
+
+    this.periscopeHeight = 1;
+    this.activePeriscope = true;
 
     this.hAngle = 0;
     this.angInc = Math.PI / 30;
@@ -68,21 +71,22 @@ MySubmarine.prototype.display = function () {
     this.scene.popMatrix();
     //Vertical Peeking Tube
     this.scene.pushMatrix();
-    this.scene.translate(0, 1.57, 0.4);
+    this.scene.translate(0,-1,0);
+    this.scene.translate(0, this.periscopeHeight * 2.57, 0.4);
     this.scene.rotate(-Math.PI / 2, 1, 0, 0);
     this.scene.scale(0.1, 0.1, 1);
     this.cylinderb.display();
     this.scene.popMatrix();
     //Horizontal Peeking Tube
     this.scene.pushMatrix();
-    this.scene.translate(0, 2.57, 0.4);
+    this.scene.translate(0, this.periscopeHeight * 2.57, 0.4);
     this.scene.rotate(-Math.PI / 2, 0, 0, 0);
     this.scene.scale(0.1, 0.1, 0.3);
     this.cylinderb.display();
     this.scene.popMatrix();
     //Semi Circle Covering Cylinder connection
     this.scene.pushMatrix();
-    this.scene.translate(0, 2.57, 0.4);
+    this.scene.translate(0, this.periscopeHeight * 2.57, 0.4);
     this.scene.rotate(-3 * Math.PI / 4, 1, 0, 0);
     this.scene.scale(0.1, 0.1, 0.1);
     this.scircle.display();
@@ -90,7 +94,7 @@ MySubmarine.prototype.display = function () {
     //Fins
     this.scene.pushMatrix(); //Right
     this.scene.translate(0, 0, -1.8);
-    this.scene.rotate(-this.angleX, 1, 0, 0);
+    this.scene.rotate(-this.sternAngle, 1, 0, 0);
     this.scene.translate(0.5, -0.1, -0.5);
     this.scene.scale(0.6, 1, 0.5);
     this.fin.display();
@@ -98,8 +102,8 @@ MySubmarine.prototype.display = function () {
 
     this.scene.pushMatrix(); //Left
     this.scene.translate(0, 0, -1.8);
-    this.scene.rotate(-this.angleX, 1, 0, 0);
-    this.scene.rotate(Math.PI, 0, 0, 1);
+    this.scene.rotate(-this.sternAngle, 1, 0, 0);
+    this.scene.rotate(-Math.PI, 0, 0, 1);
     this.scene.translate(0.5, -0.1, -0.5);
     this.scene.scale(0.6, 1, 0.5);
     this.fin.display();
@@ -116,7 +120,7 @@ MySubmarine.prototype.display = function () {
 
     this.scene.pushMatrix(); //Bottom
     this.scene.translate(0, 0, -1.8);
-    this.scene.rotate(-this.rudderAngle, 0, 1, 0);
+    this.scene.rotate(this.rudderAngle, 0, 1, 0);
     this.scene.rotate(3 * Math.PI / 2, 0, 0, 1);
     this.scene.translate(0.7, -0.1, -0.5);
     this.scene.scale(0.6, 1, 0.5);
@@ -191,6 +195,7 @@ MySubmarine.prototype.dive = function () {
         this.angleX = -45 * (Math.PI / 180);
     else if (this.angleX > 45 * (Math.PI / 180))
         this.angleX = 45 * (Math.PI / 180);
+    
 };
 
 MySubmarine.prototype.rudderAngleRight = function () {
@@ -203,23 +208,56 @@ MySubmarine.prototype.rudderAngleLeft = function () {
         this.rudderAngle -= 4 * (Math.PI / 180);
 }
 
-MySubmarine.prototype.rudderAngleReset = function () {
+MySubmarine.prototype.sternAngleUp = function () {
+    if (this.sternAngle < 45 * (Math.PI / 180))
+        this.sternAngle += 4 * (Math.PI / 180);
+}
+
+MySubmarine.prototype.sternAngleDown = function () {
+    if (this.sternAngle > -45 * (Math.PI / 180))
+        this.sternAngle -= 4 * (Math.PI / 180);
+}
+
+MySubmarine.prototype.AngleReset = function () {
     if (this.keypressed == 0) {
         if (this.rudderAngle > 0)
             this.rudderAngle -= 2 * (Math.PI / 180);
         else if (this.rudderAngle < 0)
             this.rudderAngle += 2 * (Math.PI / 180);
+        if (this.sternAngle > 0)
+            this.sternAngle -= 2 * (Math.PI / 180);
+        else if (this.sternAngle < 0)
+            this.sternAngle += 2 * (Math.PI / 180);
     }
+}
+
+MySubmarine.prototype.movePeriscope = function () {
+    if (this.activePeriscope){
+        if (this.periscopeHeight < 1)
+            this.periscopeHeight += 0.01;
+    }
+    else {
+        if (this.periscopeHeight > 0)
+            this.periscopeHeight -= 0.01;
+    }
+}
+
+MySubmarine.prototype.activatePeriscope = function () {
+        this.activePeriscope = true;
+}
+
+MySubmarine.prototype.deactivatePeriscope = function () {
+        this.activePeriscope = false;
 }
 
 MySubmarine.prototype.incSpeed = function () {
     if (this.speed < 5)
-        this.speed += 0.1 / this.delta;
+        this.speed += 0.1;
 };
 
 MySubmarine.prototype.decSpeed = function () {
     if (this.speed > -5)
-        this.speed -= 0.1 / this.delta;
+        this.speed -= 0.1;
 };
 
 MySubmarine.prototype.setPressed = function (state) {
@@ -229,7 +267,7 @@ MySubmarine.prototype.setPressed = function (state) {
 MySubmarine.prototype.update = function (currentTime) {
 
     this.delta = currentTime - this.startTime;
-    this.delta = this.delta / 10;
+    this.delta = this.delta / 1000;
     this.startTime = currentTime;
 
     this.hAngle += this.angInc * this.speed;
@@ -237,5 +275,7 @@ MySubmarine.prototype.update = function (currentTime) {
     this.x = this.x - this.speed / this.delta * (Math.sin(-this.angleY) / 50);
     this.y = this.y + this.speed / this.delta * (Math.sin(-this.angleX) / 50);
     this.z = this.z + this.speed / this.delta * (Math.cos(-this.angleY) / 50);
-    this.rudderAngleReset();
+
+    this.AngleReset();
+    this.movePeriscope();
 };

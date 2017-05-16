@@ -81,7 +81,7 @@ MyInterface.prototype.processKeyboard = function (event) {
 			{
 				this.scene.submarine.rudderAngleLeft();
 				this.scene.submarine.rotateSubLeft();
-				this.scene.submarine.setPressed(-1);
+				this.scene.submarine.setPressed(1);
 			}
 			break;
 		
@@ -102,12 +102,27 @@ MyInterface.prototype.processKeyboard = function (event) {
 			break;
 
 	    case (69): //E
-	        this.scene.submarine.dive();
+			{
+				this.scene.submarine.sternAngleUp();
+				this.scene.submarine.emerge();
+				this.scene.submarine.setPressed(1);
+			}
 	        break;
 
 	    case (81): //Q
-	        this.scene.submarine.emerge();
+			{
+				this.scene.submarine.sternAngleDown();
+				this.scene.submarine.dive();
+				this.scene.submarine.setPressed(1);
+			}
 	        break;
+		case (80): //P
+		    this.scene.submarine.activatePeriscope();
+			break;
+		case (76): //L
+		    this.scene.submarine.deactivatePeriscope();
+			break;
+			
 	};
 
 	var self = this;
