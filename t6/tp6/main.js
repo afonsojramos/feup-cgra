@@ -25,6 +25,7 @@ serialInclude([
 	'MyFin.js',
 	'MyHelix.js',
 	'MyTarget.js',
+	'MyTorpedo.js',
 
 
 	main = function () {
