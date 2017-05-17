@@ -96,7 +96,7 @@ MySubmarine.prototype.display = function () {
     this.scene.translate(0, 0, -1.8);
     this.scene.rotate(-this.sternAngle, 1, 0, 0);
     this.scene.translate(0, -0.1, -0.5);
-    this.scene.scale(0.8, 1, 0.5);
+    this.scene.scale(0.8, 1, 0.65);
     this.fin.display();
     this.scene.popMatrix();
 
@@ -105,7 +105,7 @@ MySubmarine.prototype.display = function () {
     this.scene.rotate(this.rudderAngle, 0, 1, 0);
     this.scene.rotate(Math.PI / 2, 0, 0, 1);
     this.scene.translate(0, -0.1, -0.5);
-    this.scene.scale(1, 1, 0.5);
+    this.scene.scale(1, 1, 0.65);
     this.fin.display();
     this.scene.popMatrix();
 

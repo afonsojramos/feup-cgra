@@ -33,35 +33,34 @@ MyTorpedo.prototype.constructor = MyTorpedo;
 MyTorpedo.prototype.display = function () {
     //Main Body
     this.scene.pushMatrix();
-    this.scene.scale(0.5, 0.5, 4);
+    this.scene.scale(0.3, 0.3, 2);
     this.scene.rotate(Math.PI/2, 0, 0, -1);
     this.cylinderb.display();
     this.scene.popMatrix();
     //Body Ends
     this.scene.pushMatrix();
-    this.scene.translate(0, 0, 4);
-    this.scene.scale(0.5, 0.5, 0.4);
+    this.scene.translate(0, 0, 2);
+    this.scene.scale(0.3, 0.3, 0.3);
     this.scene.rotate(Math.PI, 0, 0, 1);
     this.scircle.display();
     this.scene.popMatrix();
     //Body Ends
     this.scene.pushMatrix();
-    this.scene.scale(0.5, 0.5, 0.4);
+    this.scene.scale(0.3, 0.3, 0.3);
     this.scene.rotate(Math.PI, 1, 0, 0);
-    this.scene.rotate(Math.PI, 0, 0, 1);
     this.scircle.display();
     this.scene.popMatrix();
     //Fins
     this.scene.pushMatrix(); //Stern
-    //this.scene.translate(0, -0.05, 0);
-    this.scene.scale(0.6, 0.9, 0.5);
+    this.scene.translate(0, -0.09, 0);
+    this.scene.scale(0.3, 0.9, 0.5);
     this.fin.display();
     this.scene.popMatrix();
 
     this.scene.pushMatrix(); //Rudder
     this.scene.rotate(Math.PI / 2, 0, 0, 1);
-    //this.scene.translate(0, -0.05, 0);
-    this.scene.scale(0.6, 0.9, 0.5);
+    this.scene.translate(0, -0.09, 0);
+    this.scene.scale(0.3, 0.9, 0.5);
     this.fin.display();
     this.scene.popMatrix();
 };
