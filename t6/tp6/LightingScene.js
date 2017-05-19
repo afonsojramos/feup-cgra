@@ -27,6 +27,8 @@ LightingScene.prototype.init = function (application) {
 	this.Light3 = true; this.Light4 = true;
 	this.Light5 = true;
 	this.clockON = true;
+	this.delta = 0;
+	this.firstTime = 1;
 
 	
 	this.gl.clearColor(0.1953125, 0.14453125, 0.921875, 1.0);
@@ -325,19 +327,29 @@ LightingScene.prototype.Clock = function () {
 };
 
 LightingScene.prototype.activateMissile = function() {
-    if (this.targetIndex < this.targets.length) {
-	    this.torpedo.push(new MyTorpedo(this, this.submarine.x, this.submarine.y - 0.25, this.submarine.z - 0.5));
-		this.targetIndex++;
-	}
+    if (this.targetIndex < 2) {
+        this.tempTorpedo = new MyTorpedo(this, this.submarine.x, this.submarine.y - 0.25, this.submarine.z - 0.5);
+        this.tempTorpedo.setTarget(this.targets[this.targetIndex]);
+        this.tempTorpedo.setPoints();
+        this.torpedo.push(this.tempTorpedo);
+        this.targetIndex++; 
+    }
 }
 
 LightingScene.prototype.update = function (currentTime) {
 	
 	
 	
-	/*this.lastTime = this.lastTime | 0;
-	this.diffTime = currentTime - this.lastTime;
-	this.lastTime = currentTime;*/
+    if (this.firstTime == 1) {
+        this.lastTime = currentTime;
+        this.firstTime = 0;
+    }
+
+    this.lastTime = this.lastTime || 0.0;
+    this.delta = currentTime - this.lastTime || 0.0;
+    this.lastTime = currentTime;
+
+
 	//Makes the Clock operate independently from the Plane by updating only once per second
 	CLOCKRATE = CLOCKRATE + FREQ;
 	if (CLOCKRATE >= 600) {
@@ -374,8 +386,8 @@ LightingScene.prototype.update = function (currentTime) {
 		this.lights[4].disable();
 
 	this.submarine.update(currentTime);
-
-	for (var i = 0; i < this.torpedo.length; i++){
-		this.torpedo[i].update(currentTime);
+    
+	for (i = 0; i < this.torpedo.length; i++) {
+	    this.torpedo[i].update(this.delta);
 	}
 };

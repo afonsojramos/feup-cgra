@@ -7,10 +7,20 @@ function MyTorpedo(scene, subX, subY, subZ) {
     CGFobject.call(this, scene);
 
     //variables to change in order to move
+
     this.x = subX;
     this.y = subY;
     this.z = subZ;
     this.speed = 1.00;
+    this.t = 0;
+    
+
+    this.p1 = [];
+    this.p2 = [];
+    this.p3 = [];
+    this.p4 = [];
+
+    this.target;
 
     //angle of rotation around Y axis (starts in the direction of Z axis)
     this.angleY = 0;
@@ -67,6 +77,7 @@ MyTorpedo.prototype.display = function () {
 };
 
 MyTorpedo.prototype.bezier = function (time) {
+
     this.qx = Math.pow(1 - time, 3) * this.p1[0] + 3 * time * Math.pow(1 - time, 2) * this.p2[0] + 3 * Math.pow(time, 2) * (1 - time) * this.p3[0] + Math.pow(time, 3) * this.p4[0];
     this.qy = Math.pow(1 - time, 3) * this.p1[1] + 3 * time * Math.pow(1 - time, 2) * this.p2[1] + 3 * Math.pow(time, 2) * (1 - time) * this.p3[1] + Math.pow(time, 3) * this.p4[1];
     this.qz = Math.pow(1 - time, 3) * this.p1[2] + 3 * time * Math.pow(1 - time, 2) * this.p2[2] + 3 * Math.pow(time, 2) * (1 - time) * this.p3[2] + Math.pow(time, 3) * this.p4[2];
@@ -75,14 +86,41 @@ MyTorpedo.prototype.bezier = function (time) {
     return this.qb;
 }
 
-MyTorpedo.prototype.updatePoints = function () {
+MyTorpedo.prototype.setPoints = function () {
     this.p1 = [this.x, this.y, this.z];
     this.p2 = [this.x + 6 * Math.cos(this.angle + Math.PI / 2), this.y + 6 * Math.sin(this.vertAngle), this.z - 6 * Math.sin(this.angle + Math.PI / 2)];
     this.p3 = [this.target.x, this.target.y + 3, this.target.z];
     this.p4 = [this.target.x, this.target.y, this.target.z];
 }
 
-MyTorpedo.prototype.update = function (currentTime) {
-    /*this.updatePoints();
-    this.bezier(currentTime);*/
+MyTorpedo.prototype.setTarget = function (target) {
+    this.target = target;
+}
+
+MyTorpedo.prototype.update = function (delta) {
+
+    var time = delta / 1000;
+    var distance = Math.sqrt(Math.pow(this.target.x - this.x, 2) + Math.pow(this.target.y - this.y, 2) + (Math.pow(this.target.z - this.z, 2)));
+    
+    
+    var inc = time / distance;
+    var qb = this.bezier(this.t);
+
+    if (this.t < 1) {
+        this.x = qb[0];
+        this.y = qb[1];
+        this.z = qb[2];
+        
+        this.t = this.t + inc;
+    }
+
+   // console.log(this.x);
+    /*
+    console.log(qb[0]);
+    console.log(this.x);
+    console.log("\n");
+    console.log(this.y);
+    console.log("\n");
+    console.log(this.z);
+    console.log("\n");*/
 };
