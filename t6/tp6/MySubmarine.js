@@ -146,15 +146,15 @@ MySubmarine.prototype.display = function () {
 };
 
 MySubmarine.prototype.rotateSubLeft = function () {
-    this.angleY += this.speed / this.delta * (Math.PI / 180);
+    this.angleY +=  (Math.PI / 180);
 };
 
 MySubmarine.prototype.rotateSubRight = function () {
-    this.angleY -= this.speed / this.delta * (Math.PI / 180);
+    this.angleY -= (Math.PI / 180);
 };
 
 MySubmarine.prototype.emerge = function () {
-    this.angleX += this.speed / this.delta * (Math.PI / 180);
+    this.angleX +=  (Math.PI / 180);
 
     if (this.angleX < -45 * (Math.PI / 180))
         this.angleX = -45 * (Math.PI / 180);
@@ -163,7 +163,7 @@ MySubmarine.prototype.emerge = function () {
 };
 
 MySubmarine.prototype.dive = function () {
-    this.angleX -= this.speed / this.delta * (Math.PI / 180);
+    this.angleX -= (Math.PI / 180);
 
     if (this.angleX < -45 * (Math.PI / 180))
         this.angleX = -45 * (Math.PI / 180);
@@ -252,7 +252,8 @@ MySubmarine.prototype.update = function (currentTime) {
     this.helix.setAngle(this.hAngle);
     
     this.x = this.x - this.speed / this.delta * (Math.sin(-this.angleY) / 50);
-    this.y = this.y + this.speed / this.delta * (Math.sin(-this.angleX) / 50);
+    if ((this.y + this.speed / this.delta * (Math.sin(-this.angleX) / 50)) > 0)
+        this.y = this.y + this.speed / this.delta * (Math.sin(-this.angleX) / 50);
     this.z = this.z + this.speed / this.delta * (Math.cos(-this.angleY) / 50);
 
     this.AngleReset();
