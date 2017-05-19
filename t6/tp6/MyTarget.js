@@ -3,7 +3,7 @@
  * @param gl {WebGLRenderingContext}
  * @constructor
  */
-function MyTarget(scene,x,y,z) {
+function MyTarget(scene, x, y, z) {
     CGFobject.call(this, scene);
 
     //variables to change in order to move

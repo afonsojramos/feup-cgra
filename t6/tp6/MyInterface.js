@@ -50,7 +50,7 @@ MyInterface.prototype.init = function (application) {
 	this.gui.add(this.scene.submarine, 'speed', -5.0, 5.0);
 
     //select submarine appearances
-	this.gui.add(this.scene, 'SubmarineTexture', ['Metal', 'Angola', 'Gold', 'Concrete', 'Camo']);
+	this.gui.add(this.scene, 'SubmarineTexture', ['Concrete', 'Angola', 'Gold', 'Metal', 'Camo']);
 
 
 	return true;
@@ -122,6 +122,11 @@ MyInterface.prototype.processKeyboard = function (event) {
 		case (76): //L
 		    this.scene.submarine.deactivatePeriscope();
 			break;
+		case (70): //F
+			{
+				this.scene.activateMissile();
+			}
+	        break;
 			
 	};
 

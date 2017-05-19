@@ -52,8 +52,9 @@ LightingScene.prototype.init = function (application) {
 	this.plane = new MyPaperPlane(this);
 	this.submarine = new MySubmarine(this, INITIALX, INITIALY, INITIALZ);
 	this.cylinderb = new MyCylinderWBases(this, 8);
-	this.torpedo = new MyTorpedo(this);
+	this.torpedo = null;
 	this.targets = [this.target1 = new MyTarget(this,5,0.5,-5), this.target2 = new MyTarget(this,5,0.5,10)];
+	this.targetIndex = 0;
 
 	// Materials
 	this.submarineAppearances = {};
@@ -166,12 +167,12 @@ LightingScene.prototype.init = function (application) {
 	this.targetMaterial.setSpecular(1, 1, 1, 1);
 	this.targetMaterial.loadTexture("../resources/images/Portugal.png");
 
-	this.submarineAppearances = [this.subMaterial1, this.subMaterial2, this.subMaterial3, this.pillarAppearance, this.subMaterial4];
+	this.submarineAppearances = [this.pillarAppearance, this.subMaterial2, this.subMaterial3, this.subMaterial1, this.subMaterial4];
 	this.submarineAppearanceList = {
-		'Metal': 0,
+		'Concrete': 0,
 		'Angola': 1,
 		'Gold': 2,
-		'Concrete': 3,
+		'Metal': 3,
 		'Camo': 4
 	};
 	this.SubmarineTexture = 'Metal';
@@ -303,10 +304,12 @@ LightingScene.prototype.display = function () {
 		this.targetMaterial.apply();
 		this.targets[count].display();
 	}
-	this.pushMatrix();
-	this.translate(0,1,-1);
-	this.torpedo.display();
-	this.popMatrix();
+	if (this.torpedo != null){
+		this.pushMatrix();
+		this.translate();
+		this.torpedo.display();
+		this.popMatrix();
+	}
 
 	// ---- END Primitive drawing section
 };
@@ -318,6 +321,13 @@ LightingScene.prototype.Clock = function () {
 	else
 		this.clockON = true;
 };
+
+LightingScene.prototype.activateMissile = function() {
+	if (this.targetIndex < this.targets.length){
+		this.torpedo = new MyTorpedo(this, this.submarine.x, this.submarine.y, this.submarine.z);
+		this.targetIndex++;
+	}
+}
 
 LightingScene.prototype.update = function (currentTime) {
 	
@@ -362,4 +372,6 @@ LightingScene.prototype.update = function (currentTime) {
 		this.lights[4].disable();
 
 	this.submarine.update(currentTime);
+	if (this.torpedo != null)
+		this.torpedo.update(currentTime);
 };

@@ -1,6 +1,6 @@
 /**
  * MySubmarine
- * @param gl {WebGLRenderingContext}
+ * @param gl {WebGLRenderingContext, x, y, z}
  * @constructor
  */
 function MySubmarine(scene, x, y, z) {
@@ -72,21 +72,21 @@ MySubmarine.prototype.display = function () {
     //Vertical Peeking Tube
     this.scene.pushMatrix();
     this.scene.translate(0,-1,0);
-    this.scene.translate(0, this.periscopeHeight * 2.57, 0.4);
+    this.scene.translate(0,0.07 + this.periscopeHeight * 2.50, 0.4);
     this.scene.rotate(-Math.PI / 2, 1, 0, 0);
     this.scene.scale(0.1, 0.1, 1);
     this.cylinderb.display();
     this.scene.popMatrix();
     //Horizontal Peeking Tube
     this.scene.pushMatrix();
-    this.scene.translate(0, this.periscopeHeight * 2.57, 0.4);
+    this.scene.translate(0,0.07 + this.periscopeHeight * 2.50, 0.4);
     this.scene.rotate(-Math.PI / 2, 0, 0, 0);
     this.scene.scale(0.1, 0.1, 0.3);
     this.cylinderb.display();
     this.scene.popMatrix();
     //Semi Circle Covering Cylinder connection
     this.scene.pushMatrix();
-    this.scene.translate(0, this.periscopeHeight * 2.57, 0.4);
+    this.scene.translate(0,0.07 + this.periscopeHeight * 2.50, 0.4);
     this.scene.rotate(-3 * Math.PI / 4, 1, 0, 0);
     this.scene.scale(0.1, 0.1, 0.1);
     this.scircle.display();
@@ -244,8 +244,13 @@ MySubmarine.prototype.update = function (currentTime) {
     this.delta = this.delta / 10;
     this.startTime = currentTime;
 
-    this.hAngle += this.angInc * this.speed;
+    if ((this.speed < 1) && (this.speed > -1))
+        this.hAngle += this.angInc;
+    else
+        this.hAngle += this.angInc * this.speed;
+
     this.helix.setAngle(this.hAngle);
+    
     this.x = this.x - this.speed / this.delta * (Math.sin(-this.angleY) / 50);
     this.y = this.y + this.speed / this.delta * (Math.sin(-this.angleX) / 50);
     this.z = this.z + this.speed / this.delta * (Math.cos(-this.angleY) / 50);
