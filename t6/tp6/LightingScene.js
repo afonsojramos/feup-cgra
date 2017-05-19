@@ -52,7 +52,7 @@ LightingScene.prototype.init = function (application) {
 	this.plane = new MyPaperPlane(this);
 	this.submarine = new MySubmarine(this, INITIALX, INITIALY, INITIALZ);
 	this.cylinderb = new MyCylinderWBases(this, 8);
-	this.torpedo = null;
+	this.torpedo = [];
 	this.targets = [this.target1 = new MyTarget(this,5,0.5,-5), this.target2 = new MyTarget(this,5,0.5,10)];
 	this.targetIndex = 0;
 
@@ -304,11 +304,13 @@ LightingScene.prototype.display = function () {
 		this.targetMaterial.apply();
 		this.targets[count].display();
 	}
-	if (this.torpedo != null){
-		this.pushMatrix();
-		this.translate();
-		this.torpedo.display();
-		this.popMatrix();
+
+	//Torpedo's
+	for(var i = 0; i < this.torpedo.length; i++){
+	    this.pushMatrix();
+	    this.translate(this.torpedo[i].x,this.torpedo[i].y,this.torpedo[i].z);
+	    this.torpedo[i].display();
+	    this.popMatrix();
 	}
 
 	// ---- END Primitive drawing section
@@ -323,8 +325,8 @@ LightingScene.prototype.Clock = function () {
 };
 
 LightingScene.prototype.activateMissile = function() {
-	if (this.targetIndex < this.targets.length){
-		this.torpedo = new MyTorpedo(this, this.submarine.x, this.submarine.y, this.submarine.z);
+    if (this.targetIndex < this.targets.length) {
+	    this.torpedo.push(new MyTorpedo(this, this.submarine.x, this.submarine.y - 0.25, this.submarine.z - 0.5));
 		this.targetIndex++;
 	}
 }
@@ -372,6 +374,8 @@ LightingScene.prototype.update = function (currentTime) {
 		this.lights[4].disable();
 
 	this.submarine.update(currentTime);
-	if (this.torpedo != null)
-		this.torpedo.update(currentTime);
+
+	for (var i = 0; i < this.torpedo.length; i++){
+		this.torpedo[i].update(currentTime);
+	}
 };

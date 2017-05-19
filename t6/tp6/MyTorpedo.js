@@ -31,7 +31,7 @@ MyTorpedo.prototype.display = function () {
     this.scene.pushMatrix();
     this.scene.scale(0.3, 0.3, 2);
     this.scene.rotate(Math.PI / 2, 0, 0, -1);
-    this.scene.translate(this.x, this.y -5, this.z);
+    //this.scene.translate(this.x, this.y -5, this.z);
     this.cylinderb.display();
     this.scene.popMatrix();
     //Body Ends
@@ -39,21 +39,21 @@ MyTorpedo.prototype.display = function () {
     this.scene.translate(0, 0, 2);
     this.scene.scale(0.3, 0.3, 0.3);
     this.scene.rotate(Math.PI, 0, 0, 1);
-    this.scene.translate(this.x, this.y -5, this.z);
+    //this.scene.translate(this.x, this.y -5, this.z);
     this.scircle.display();
     this.scene.popMatrix();
     //Body Ends
     this.scene.pushMatrix();
     this.scene.scale(0.3, 0.3, 0.3);
     this.scene.rotate(Math.PI, 1, 0, 0);
-    this.scene.translate(this.x, this.y -5, this.z);
+    //this.scene.translate(this.x, this.y -5, this.z);
     this.scircle.display();
     this.scene.popMatrix();
     //Fins
     this.scene.pushMatrix(); //Stern
     this.scene.translate(0, -0.09, 0);
     this.scene.scale(0.3, 0.9, 0.5);
-    this.scene.translate(this.x, this.y -5, this.z);
+    //this.scene.translate(this.x, this.y -5, this.z);
     this.fin.display();
     this.scene.popMatrix();
 
@@ -61,7 +61,7 @@ MyTorpedo.prototype.display = function () {
     this.scene.rotate(Math.PI / 2, 0, 0, 1);
     this.scene.translate(0, -0.09, 0);
     this.scene.scale(0.3, 0.9, 0.5);
-    this.scene.translate(this.x, this.y -5, this.z);
+    //this.scene.translate(this.x, this.y -5, this.z);
     this.fin.display();
     this.scene.popMatrix();
 };
@@ -83,5 +83,6 @@ MyTorpedo.prototype.updatePoints = function () {
 }
 
 MyTorpedo.prototype.update = function (currentTime) {
-    
+    /*this.updatePoints();
+    this.bezier(currentTime);*/
 };
