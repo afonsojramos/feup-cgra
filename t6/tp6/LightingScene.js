@@ -55,7 +55,7 @@ LightingScene.prototype.init = function (application) {
 	this.submarine = new MySubmarine(this, INITIALX, INITIALY, INITIALZ);
 	this.cylinderb = new MyCylinderWBases(this, 8);
 	this.torpedo = [];
-	this.targets = [this.target1 = new MyTarget(this,5,0.5,-5), this.target2 = new MyTarget(this,5,0.5,10)];
+	this.targets = [new MyTarget(this,5,0.5,-5), new MyTarget(this,5,0.5,10)];
 	this.targetIndex = 0;
 
 	// Materials
@@ -327,28 +327,22 @@ LightingScene.prototype.Clock = function () {
 };
 
 LightingScene.prototype.activateMissile = function() {
-    if (this.targetIndex < 2) {
-        this.tempTorpedo = new MyTorpedo(this, this.submarine.x, this.submarine.y - 0.25, this.submarine.z - 0.5);
-        this.tempTorpedo.setTarget(this.targets[this.targetIndex]);
-        this.tempTorpedo.setPoints();
-        this.torpedo.push(this.tempTorpedo);
+    if (this.targetIndex < this.targets.length) {
+        //this.tempTorpedo = new MyTorpedo(this, this.submarine.x, this.submarine.y - 0.25, this.submarine.z - 0.5);
+        //this.tempTorpedo.setTarget(this.targets[this.targetIndex]);
+        //this.tempTorpedo.setPoints();
+        this.torpedo.push(new MyTorpedo(this, this.submarine.x, this.submarine.y - 0.25, this.submarine.z - 0.5));
         this.targetIndex++; 
+		//this.torpedo[this.torpedo.length - 1].setTarget(this.targets[this.targetIndex]);
+		this.torpedo[this.torpedo.length - 1].setPoints();
     }
 }
 
 LightingScene.prototype.update = function (currentTime) {
 	
-	
-	
-    if (this.firstTime == 1) {
-        this.lastTime = currentTime;
-        this.firstTime = 0;
-    }
-
-    this.lastTime = this.lastTime || 0.0;
-    this.delta = currentTime - this.lastTime || 0.0;
+    this.lastTime = this.lastTime | 0.0;
+    this.delta = currentTime - this.lastTime | 0.0;
     this.lastTime = currentTime;
-
 
 	//Makes the Clock operate independently from the Plane by updating only once per second
 	CLOCKRATE = CLOCKRATE + FREQ;

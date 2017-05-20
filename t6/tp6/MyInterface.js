@@ -122,7 +122,6 @@ MyInterface.prototype.processKeyboard = function (event) {
 		case (76): //L
 		    this.scene.submarine.deactivatePeriscope();
 			break;
-
 	    case (70): //F
 			{
 				this.scene.activateMissile();

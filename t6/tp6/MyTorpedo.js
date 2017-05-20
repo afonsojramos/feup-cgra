@@ -41,7 +41,6 @@ MyTorpedo.prototype.display = function () {
     this.scene.pushMatrix();
     this.scene.scale(0.3, 0.3, 2);
     this.scene.rotate(Math.PI / 2, 0, 0, -1);
-    //this.scene.translate(this.x, this.y -5, this.z);
     this.cylinderb.display();
     this.scene.popMatrix();
     //Body Ends
@@ -49,21 +48,18 @@ MyTorpedo.prototype.display = function () {
     this.scene.translate(0, 0, 2);
     this.scene.scale(0.3, 0.3, 0.3);
     this.scene.rotate(Math.PI, 0, 0, 1);
-    //this.scene.translate(this.x, this.y -5, this.z);
     this.scircle.display();
     this.scene.popMatrix();
     //Body Ends
     this.scene.pushMatrix();
     this.scene.scale(0.3, 0.3, 0.3);
     this.scene.rotate(Math.PI, 1, 0, 0);
-    //this.scene.translate(this.x, this.y -5, this.z);
     this.scircle.display();
     this.scene.popMatrix();
     //Fins
     this.scene.pushMatrix(); //Stern
     this.scene.translate(0, -0.09, 0);
     this.scene.scale(0.3, 0.9, 0.5);
-    //this.scene.translate(this.x, this.y -5, this.z);
     this.fin.display();
     this.scene.popMatrix();
 
@@ -71,7 +67,6 @@ MyTorpedo.prototype.display = function () {
     this.scene.rotate(Math.PI / 2, 0, 0, 1);
     this.scene.translate(0, -0.09, 0);
     this.scene.scale(0.3, 0.9, 0.5);
-    //this.scene.translate(this.x, this.y -5, this.z);
     this.fin.display();
     this.scene.popMatrix();
 };
@@ -89,17 +84,17 @@ MyTorpedo.prototype.bezier = function (time) {
 MyTorpedo.prototype.setPoints = function () {
     this.p1 = [this.x, this.y, this.z];
     this.p2 = [this.x + 6 * Math.cos(this.angle + Math.PI / 2), this.y + 6 * Math.sin(this.vertAngle), this.z - 6 * Math.sin(this.angle + Math.PI / 2)];
-    this.p3 = [this.target.x, this.target.y + 3, this.target.z];
-    this.p4 = [this.target.x, this.target.y, this.target.z];
+    this.p3 = [this.scene.targets[this.scene.targetIndex].x, this.scene.targets[this.scene.targetIndex].y + 3, this.scene.targets[this.scene.targetIndex].z];
+    this.p4 = [this.scene.targets[this.scene.targetIndex].x, this.scene.targets[this.scene.targetIndex].y, this.scene.targets[this.scene.targetIndex].z];
 }
 
 MyTorpedo.prototype.setTarget = function (target) {
-    this.target = target;
+    //this.target = target;
 }
 
-MyTorpedo.prototype.update = function (delta) {
+MyTorpedo.prototype.update = function (currentTime) {
 
-    var time = delta / 1000;
+    /*var time = delta / 1000;
     var distance = Math.sqrt(Math.pow(this.target.x - this.x, 2) + Math.pow(this.target.y - this.y, 2) + (Math.pow(this.target.z - this.z, 2)));
     
     
@@ -112,9 +107,9 @@ MyTorpedo.prototype.update = function (delta) {
         this.z = qb[2];
         
         this.t = this.t + inc;
-    }
+    }*/
 
-   // console.log(this.x);
+    //console.log(this.x);
     /*
     console.log(qb[0]);
     console.log(this.x);
