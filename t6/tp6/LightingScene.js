@@ -26,11 +26,11 @@ LightingScene.prototype.init = function (application) {
 	this.Light1 = true; this.Light2 = true;
 	this.Light3 = true; this.Light4 = true;
 	this.Light5 = true;
-	this.clockON = true;
+	this.clockON = false;
+	this.Camera = true;
 	this.delta = 0;
 	this.firstTime = 1;
 
-	
 	this.gl.clearColor(0.1953125, 0.14453125, 0.921875, 1.0);
 	this.gl.clearDepth(100.0);
 	this.gl.enable(this.gl.DEPTH_TEST);
@@ -54,8 +54,9 @@ LightingScene.prototype.init = function (application) {
 	this.plane = new MyPaperPlane(this);
 	this.submarine = new MySubmarine(this, INITIALX, INITIALY, INITIALZ);
 	this.cylinderb = new MyCylinderWBases(this, 8);
-	this.torpedo = [];
-	this.targets = [new MyTarget(this,5,0.5,-5), new MyTarget(this,5,0.5,10)];
+	this.torpedos = [];
+	this.targets = [new MyTarget(this, -10, 1, 5), new MyTarget(this, 5, 1, 10),new MyTarget(this, 10, 4, 10)];
+	this.explosions = [];
 	this.targetIndex = 0;
 
 	// Materials
@@ -185,6 +186,22 @@ LightingScene.prototype.initCameras = function () {
 	this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
 };
 
+
+LightingScene.prototype.updateCamera = function () {
+
+	var x = this.submarine.x - 25 * Math.sin(this.submarine.angleX * this.submarine.angleY)/* Math.sin(this.submarine.angleX * this.submarine.angleY)/* distancia que queres recuar a camera em x */;
+	var y = this.submarine.y + 25/* a altura a queres a camera*/;
+	var z = this.submarine.z - 25 * Math.cos(this.submarine.angleX * this.submarine.angleY)/* Math.sin(this.submarine.angleX * this.submarine.angleY)/*  distancia que queres recuar a camera em x */;
+	this.camera.setPosition(vec3.fromValues(x, y, z));
+
+	var xl, yl, zl; /* ponto para onde queres que a camera aponte */
+	xl = this.submarine.x + 5 * Math.sin(this.submarine.angleX * this.submarine.angleY)/**/;
+	yl = this.submarine.y - 2;
+	zl = this.submarine.z + 5 * Math.cos(this.submarine.angleX * this.submarine.angleY)/**/;
+	this.camera.setTarget(vec3.fromValues(xl, yl, zl));
+
+}
+
 LightingScene.prototype.initLights = function () {
 	this.setGlobalAmbientLight(0.5, 0.5, 0.5, 1.0);
 
@@ -243,6 +260,7 @@ LightingScene.prototype.updateLights = function () {
 
 
 LightingScene.prototype.display = function () {
+
 	// ---- BEGIN Background, camera and axis setup
 
 	// Clear image and depth buffer everytime we update the scene
@@ -294,7 +312,7 @@ LightingScene.prototype.display = function () {
 
 	//Submarine 
 	this.pushMatrix();
-	this.translate(0, 2.1, 0);
+	this.translate(0, 3.1, 0);
 	this.translate(this.submarine.x, this.submarine.y, this.submarine.z);
 	this.rotate(this.submarine.angleY, 0, 1, 0);
 	this.rotate(this.submarine.angleX, 1, 0, 0);
@@ -302,17 +320,24 @@ LightingScene.prototype.display = function () {
 	this.submarine.display();
 	this.popMatrix();
 
-	for(var count = 0 ; count < this.targets.length ; count++){
+	for (var count = 0; count < this.targets.length; count++) {
 		this.targetMaterial.apply();
 		this.targets[count].display();
 	}
 
 	//Torpedo's
-	for(var i = 0; i < this.torpedo.length; i++){
-	    this.pushMatrix();
-	    this.translate(this.torpedo[i].x,this.torpedo[i].y,this.torpedo[i].z);
-	    this.torpedo[i].display();
-	    this.popMatrix();
+	for (var i = 0; i < this.targets.length; i++) {
+		if (this.torpedos[i] != null) {
+			this.pushMatrix();
+			this.pillarAppearance.apply();
+			if (this.torpedos[i].end) {
+				this.explosions.push(new MyExplosion(this, this.targets[i]));
+				this.torpedos.splice(i, 1);
+				this.targets.splice(i, 1);
+			} else
+				this.torpedos[i].display();
+			this.popMatrix();
+		}
 	}
 
 	// ---- END Primitive drawing section
@@ -326,23 +351,28 @@ LightingScene.prototype.Clock = function () {
 		this.clockON = true;
 };
 
-LightingScene.prototype.activateMissile = function() {
-    if (this.targetIndex < this.targets.length) {
-        //this.tempTorpedo = new MyTorpedo(this, this.submarine.x, this.submarine.y - 0.25, this.submarine.z - 0.5);
-        //this.tempTorpedo.setTarget(this.targets[this.targetIndex]);
-        //this.tempTorpedo.setPoints();
-        this.torpedo.push(new MyTorpedo(this, this.submarine.x, this.submarine.y - 0.25, this.submarine.z - 0.5));
-        this.targetIndex++; 
-		//this.torpedo[this.torpedo.length - 1].setTarget(this.targets[this.targetIndex]);
-		this.torpedo[this.torpedo.length - 1].setPoints();
-    }
+LightingScene.prototype.activateMissile = function () {
+	for (var i = 0; i < this.targets.length; i++) {
+		if (this.targets[i] != null) {
+			if (!this.targets[i].locked) {
+				this.targets[i].locked = true;
+				var torpedo = new MyTorpedo(this);
+				torpedo.setTarget(this.targets[i]);
+				if (this.torpedos.length <= i)
+					this.torpedos.push(torpedo);
+				else
+					this.torpedos[i] = torpedo;
+				return;
+			}
+		}
+	}
 }
 
 LightingScene.prototype.update = function (currentTime) {
-	
-    this.lastTime = this.lastTime | 0.0;
-    this.delta = currentTime - this.lastTime | 0.0;
-    this.lastTime = currentTime;
+
+	this.lastTime = this.lastTime | 0.0;
+	this.delta = currentTime - this.lastTime | 0.0;
+	this.lastTime = currentTime;
 
 	//Makes the Clock operate independently from the Plane by updating only once per second
 	CLOCKRATE = CLOCKRATE + FREQ;
@@ -380,8 +410,13 @@ LightingScene.prototype.update = function (currentTime) {
 		this.lights[4].disable();
 
 	this.submarine.update(currentTime);
-    
-	for (i = 0; i < this.torpedo.length; i++) {
-	    this.torpedo[i].update(this.delta);
-	}
-};
+
+	for (var i = 0; i < this.targets.length; i++)
+		if (this.torpedos[i] != null)
+			this.torpedos[i].update(currentTime);
+	for (var i = 0; i < this.explosions.length; i++)
+		if (this.explosions[i] != null)
+			this.explosions[i].update(currentTime);
+	if (this.Camera)
+		this.updateCamera();
+	};

@@ -3,30 +3,25 @@
  * @param gl {WebGLRenderingContext}
  * @constructor
  */
-function MyTorpedo(scene, subX, subY, subZ) {
+function MyTorpedo(scene) {
     CGFobject.call(this, scene);
 
     //variables to change in order to move
 
-    this.x = subX;
-    this.y = subY;
-    this.z = subZ;
-    this.speed = 1.00;
-    this.t = 0;
-    
+    this.x = scene.submarine.x;
+    this.y = scene.submarine.y;
+    this.z = scene.submarine.z;
 
-    this.p1 = [];
-    this.p2 = [];
-    this.p3 = [];
-    this.p4 = [];
-
-    this.target;
+    this.target = null;
+    this.distance = 0.0;
+    this.end = false;
 
     //angle of rotation around Y axis (starts in the direction of Z axis)
-    this.angleY = 0;
-
-    //angle of rotation around X axis (starts in the direction of Z axis)
-    this.angleX = 0;
+    this.angleY = scene.submarine.angleY;
+    this.angleX = scene.submarine.angleX;
+    
+    this.y_offset = -1;
+    this.z_offset = 1;
 
     this.cylinderb = new MyCylinderWBases(this.scene, 26);
     this.scircle = new MyLamp(this.scene, 26, 5);
@@ -37,6 +32,9 @@ MyTorpedo.prototype = Object.create(CGFobject.prototype);
 MyTorpedo.prototype.constructor = MyTorpedo;
 
 MyTorpedo.prototype.display = function () {
+    this.scene.translate(this.x, this.y, this.z);
+    this.scene.rotate(this.angleY, 0, 1, 0);
+    this.scene.rotate(-this.angleX, 1, 0, 0);
     //Main Body
     this.scene.pushMatrix();
     this.scene.scale(0.3, 0.3, 2);
@@ -71,51 +69,67 @@ MyTorpedo.prototype.display = function () {
     this.scene.popMatrix();
 };
 
-MyTorpedo.prototype.bezier = function (time) {
-
-    this.qx = Math.pow(1 - time, 3) * this.p1[0] + 3 * time * Math.pow(1 - time, 2) * this.p2[0] + 3 * Math.pow(time, 2) * (1 - time) * this.p3[0] + Math.pow(time, 3) * this.p4[0];
-    this.qy = Math.pow(1 - time, 3) * this.p1[1] + 3 * time * Math.pow(1 - time, 2) * this.p2[1] + 3 * Math.pow(time, 2) * (1 - time) * this.p3[1] + Math.pow(time, 3) * this.p4[1];
-    this.qz = Math.pow(1 - time, 3) * this.p1[2] + 3 * time * Math.pow(1 - time, 2) * this.p2[2] + 3 * Math.pow(time, 2) * (1 - time) * this.p3[2] + Math.pow(time, 3) * this.p4[2];
-    this.qb = [];
-    this.qb.push(this.qx, this.qy, this.qz);
-    return this.qb;
-}
-
 MyTorpedo.prototype.setPoints = function () {
-    this.p1 = [this.x, this.y, this.z];
-    this.p2 = [this.x + 6 * Math.cos(this.angle + Math.PI / 2), this.y + 6 * Math.sin(this.vertAngle), this.z - 6 * Math.sin(this.angle + Math.PI / 2)];
-    this.p3 = [this.scene.targets[this.scene.targetIndex].x, this.scene.targets[this.scene.targetIndex].y + 3, this.scene.targets[this.scene.targetIndex].z];
-    this.p4 = [this.scene.targets[this.scene.targetIndex].x, this.scene.targets[this.scene.targetIndex].y, this.scene.targets[this.scene.targetIndex].z];
+    var x = this.x + 6 * Math.sin(this.angleY) / (Math.sqrt(1 + Math.pow(Math.sin(this.angleX), 2)));
+    var y = this.y + 6 * Math.sin(this.angleX) / (Math.sqrt(1 + Math.pow(Math.sin(this.angleX), 2)));
+    var z = this.z + 6 * Math.cos(this.angleY) / (Math.sqrt(1 + Math.pow(Math.sin(this.angleX), 2)));
+    //console.log(x);
+    return new MyPoint(x, y, z);
 }
 
 MyTorpedo.prototype.setTarget = function (target) {
-    //this.target = target;
+    this.target = target;
+    this.distance = Math.sqrt(Math.pow(target.x - this.x, 2) + Math.pow(target.y - this.y, 2) + Math.pow(target.z - this.z, 2));
+
+    //Bezier
+    this.p1 = new MyPoint(this.x, this.y, this.z);
+    this.p2 = this.setPoints();
+    this.p3 = new MyPoint(target.x, target.y + 3, target.z);
+    this.p4 = new MyPoint(target.x, target.y, target.z);
+    this.t = 0.0;
 }
 
 MyTorpedo.prototype.update = function (currentTime) {
+    var delta = 0;
+    if (this.lastTime != -1)
+        delta = (currentTime - this.lastTime) / 1000;
+    this.lastTime = currentTime;
 
-    /*var time = delta / 1000;
-    var distance = Math.sqrt(Math.pow(this.target.x - this.x, 2) + Math.pow(this.target.y - this.y, 2) + (Math.pow(this.target.z - this.z, 2)));
-    
-    
-    var inc = time / distance;
-    var qb = this.bezier(this.t);
+    var incT = 0.1 / this.distance;
+    this.t += incT;
 
-    if (this.t < 1) {
-        this.x = qb[0];
-        this.y = qb[1];
-        this.z = qb[2];
-        
-        this.t = this.t + inc;
-    }*/
+    if (this.t >= 1.0) {
+        target = null;
+        this.end = true;
+        this.t = 1;
+    }
 
-    //console.log(this.x);
-    /*
-    console.log(qb[0]);
-    console.log(this.x);
-    console.log("\n");
-    console.log(this.y);
-    console.log("\n");
-    console.log(this.z);
-    console.log("\n");*/
+    var calc1 = Math.pow(1 - this.t, 3);
+    var calc2 = 3 * this.t * (Math.pow(1 - this.t, 2));
+    var calc3 = 3 * Math.pow(this.t, 2) * (1 - this.t);
+    var calc4 = Math.pow(this.t, 3);
+
+    var new_x = calc1 * this.p1.x + calc2 * this.p2.x + calc3 * this.p3.x + calc4 * this.p4.x;
+    var new_y = calc1 * this.p1.y + calc2 * this.p2.y + calc3 * this.p3.y + calc4 * this.p4.y;
+    var new_z = calc1 * this.p1.z + calc2 * this.p2.z + calc3 * this.p3.z + calc4 * this.p4.z;
+
+    var dx = new_x - this.x;
+    var dy = new_y - this.y;
+    var dz = new_z - this.z;
+
+    this.x = new_x;
+    this.y = new_y;
+    this.z = new_z;
+
+    //console.log(this.p2.x);
+
+    this.angleY = Math.atan(dx / dz) + (dz < 0 ? 180.0 * degToRad : 0);
+    this.angleX = Math.atan(dy / Math.sqrt(dx * dx + dy * dy + dz * dz));
+
+    this.y_offset = (1 - this.t) * -1.6;
+    if (this.y_offset > 0)
+        this.y_offset = 0;
+    this.z_offset = (1 - this.t) * 1.5;
+    if (this.z_offset < 0)
+        this.z_offset = 0;
 };

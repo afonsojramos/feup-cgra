@@ -47,6 +47,9 @@ MyInterface.prototype.init = function (application) {
 	//Clock Button
 	this.gui.add(this.scene, 'Clock');
 
+	//Locked Camera
+	this.gui.add(this.scene, 'Camera');
+
 	this.gui.add(this.scene.submarine, 'speed', -5.0, 5.0);
 
     //select submarine appearances

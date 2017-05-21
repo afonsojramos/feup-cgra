@@ -10,7 +10,7 @@ function MyTarget(scene, x, y, z) {
     this.x = x;
     this.y = y;
     this.z = z;
-    this.speed = 1.00; 
+    this.locked = false;
 
     this.cube = new MyUnitCubeQuad(this.scene);
     this.cylinder = new MyCylinder(this.scene, 26, 20);
@@ -28,6 +28,12 @@ MyTarget.prototype.constructor = MyTarget;
 MyTarget.prototype.display = function () {
     this.scene.pushMatrix(); //Top
         this.scene.translate(this.x,this.y,this.z);
-        this.cube.display();
+        this.scircle.display();
+    this.scene.popMatrix();
+
+    this.scene.pushMatrix(); //Top
+        this.scene.translate(this.x,this.y,this.z);
+        this.scene.rotate(Math.PI, 1, 0, 0);
+        this.scircle.display();
     this.scene.popMatrix();
 };
