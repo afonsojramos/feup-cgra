@@ -1,6 +1,6 @@
 var degToRad = Math.PI / 180.0;
 
-var FREQ = 50;
+var FREQ = 10;
 var CLOCKRATE = 0;
 
 var INITIALX = 0;
@@ -343,7 +343,7 @@ LightingScene.prototype.display = function () {
 		}
 	}
 
-	if (this.explosions.isExpanding) {
+	if (this.explosions.expanding) {
 		this.pushMatrix();
 		this.subMaterial3.apply();
 		this.explosions.display();
@@ -376,6 +376,10 @@ LightingScene.prototype.activateMissile = function () {
 			}
 		}
 	}
+}
+
+LightingScene.prototype.replenish = function (){
+	this.targets = [new MyTarget(this, -10, 1, 5), new MyTarget(this, 5, 1, 10), new MyTarget(this, 10, 4, 10)];
 }
 
 LightingScene.prototype.update = function (currentTime) {

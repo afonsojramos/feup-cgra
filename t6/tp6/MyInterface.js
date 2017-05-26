@@ -52,7 +52,7 @@ MyInterface.prototype.init = function (application) {
 
 	this.gui.add(this.scene.submarine, 'speed', -5.0, 5.0);
 
-    //select submarine appearances
+	//select submarine appearances
 	this.gui.add(this.scene, 'SubmarineTexture', ['Concrete', 'Angola', 'Gold', 'Metal', 'Camo']);
 
 
@@ -64,9 +64,9 @@ MyInterface.prototype.init = function (application) {
  * @param event {Event}
  */
 MyInterface.prototype.processKeyboard = function (event) {
-	
-    var key = event.keyCode;
- 
+
+	var key = event.keyCode;
+
 
 	// call CGFinterface default code (omit if you want to override)
 	CGFinterface.prototype.processKeyboard.call(this, event);
@@ -75,10 +75,10 @@ MyInterface.prototype.processKeyboard = function (event) {
 	// or use String.fromCharCode(event.keyCode) to compare chars
 
 	//turning to capital letter (if it is a letter)
-	if(event.keyCode >= 90)
+	if (event.keyCode >= 90)
 		key -= 32;
-	
-	
+
+
 	switch (key) {
 		case (65): //A
 			{
@@ -87,13 +87,13 @@ MyInterface.prototype.processKeyboard = function (event) {
 				this.scene.submarine.setPressed(true);
 			}
 			break;
-		
+
 		case (87): //W
-		    this.scene.submarine.incSpeed();
+			this.scene.submarine.incSpeed();
 			break;
 
 		case (83): //S
-		    this.scene.submarine.decSpeed();
+			this.scene.submarine.decSpeed();
 			break;
 
 		case (68): //D
@@ -104,33 +104,38 @@ MyInterface.prototype.processKeyboard = function (event) {
 			}
 			break;
 
-	    case (69): //E
+		case (69): //E
 			{
 				this.scene.submarine.sternAngleUp();
 				this.scene.submarine.emerge();
 				this.scene.submarine.setPressed(true);
 			}
-	        break;
+			break;
 
-	    case (81): //Q
+		case (81): //Q
 			{
 				this.scene.submarine.sternAngleDown();
 				this.scene.submarine.dive();
 				this.scene.submarine.setPressed(true);
 			}
-	        break;
+			break;
 		case (80): //P
-		    this.scene.submarine.activatePeriscope();
+			this.scene.submarine.activatePeriscope();
 			break;
 		case (76): //L
-		    this.scene.submarine.deactivatePeriscope();
+			this.scene.submarine.deactivatePeriscope();
 			break;
-	    case (70): //F
+		case (70): //F
 			{
 				this.scene.activateMissile();
 			}
-	        break;
-			
+			break;
+		case (84): //T
+			{
+				this.scene.replenish();
+			}
+			break;
+
 	};
 
 	var self = this;

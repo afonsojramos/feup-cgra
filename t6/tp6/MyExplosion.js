@@ -5,14 +5,13 @@
  function MyExplosion(scene, x,y,z) {
  	CGFobject.call(this,scene);
 
-	this.posX = x;
-	this.posY = y;
-	this.posZ = z;
+	this.X = x;
+	this.Y = y;
+	this.Z = z;
 	
-	this.explosionSphere = new MyLamp(scene, 20,20);
-	this.currExplosionScale = 0;
-	this.isExpanding = true;
-	this.startsDecreasing = 0;
+	this.expSemiSphere = new MyLamp(scene, 20,20);
+	this.currExpScale = 0;
+	this.expanding = true;
 
  	this.initBuffers();
  };
@@ -21,16 +20,13 @@
  MyExplosion.prototype.constructor = MyExplosion;
 
  MyExplosion.prototype.display = function() {
- 	this.scene.translate(this.posX, this.posY, this.posZ);
-	this.scene.scale(this.currExplosionScale, this.currExplosionScale, this.currExplosionScale);
-	this.explosionSphere.display();
+ 	this.scene.translate(this.X, this.Y, this.Z);
+	this.scene.scale(this.currExpScale, this.currExpScale, this.currExpScale);
+	this.expSemiSphere.display();
 	this.scene.rotate(Math.PI,0,1,0);
-	this.explosionSphere.display();
-
-	if (this.isExpanding == 1) {
-		this.currExplosionScale = this.currExplosionScale + (5 - this.currExplosionScale)/10;
-		if (this.currExplosionScale > 4) {
-			this.isExpanding = 0;
+	this.expSemiSphere.display();
+		this.currExpScale = this.currExpScale + (5 - this.currExpScale)/10;
+		if (this.currExpScale > 4) {
+			this.expanding = 0;
 		}
-	}
 };
