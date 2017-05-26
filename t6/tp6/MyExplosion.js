@@ -1,44 +1,36 @@
-function MyExplosion(scene, target) {
-    CGFobject.call(this, scene);
+/**
+ * MyExplosion
+ * @constructor
+ */
+ function MyExplosion(scene, x,y,z) {
+ 	CGFobject.call(this,scene);
 
-    this.x = target.x;
-    this.y = target.y;
-    this.z = target.z;
-    this.size = target.size / 2;
-    this.orisize = target.size;
+	this.posX = x;
+	this.posY = y;
+	this.posZ = z;
+	
+	this.explosionSphere = new MyLamp(scene, 20,20);
+	this.currExplosionScale = 0;
+	this.isExpanding = true;
+	this.startsDecreasing = 0;
 
-    this.reverse = false;
-    this.end = false;
+ 	this.initBuffers();
+ };
 
-    this.semis = new MyLamp(scene,20,10);
+ MyExplosion.prototype = Object.create(CGFobject.prototype);
+ MyExplosion.prototype.constructor = MyExplosion;
+
+ MyExplosion.prototype.display = function() {
+ 	this.scene.translate(this.posX, this.posY, this.posZ);
+	this.scene.scale(this.currExplosionScale, this.currExplosionScale, this.currExplosionScale);
+	this.explosionSphere.display();
+	this.scene.rotate(Math.PI,0,1,0);
+	this.explosionSphere.display();
+
+	if (this.isExpanding == 1) {
+		this.currExplosionScale = this.currExplosionScale + (5 - this.currExplosionScale)/10;
+		if (this.currExplosionScale > 4) {
+			this.isExpanding = 0;
+		}
+	}
 };
-
-MyExplosion.prototype = Object.create(CGFobject.prototype);
-MyExplosion.prototype.constructor = MyTarget;
-
-MyExplosion.prototype.update = function(currTime){   
-    if(this.reverse){
-        this.size -= 1 * this.orisize * 2.5;
-        if(this.size <= this.orisize / 2)
-            this.end = true;
-    }
-    else {
-        this.size += 2 * this.orisize;
-        if(this.size >= 2 * this.orisize)
-            this.reverse = true;
-    }
-};
-
-MyExplosion.prototype.display = function(){
-    //semis
-    this.scene.pushMatrix();
-    this.scene.translate(this.x, this.y, this.z);
-    this.scene.scale(this.size, this.size, this.size);
-    this.scene.rotate(90.0*degToRad,1,0,0);
-    this.semis.display();
-    this.scene.rotate(180.0*degToRad,1,0,0);
-    this.semis.display();
-    this.scene.popMatrix();
-};
-
-

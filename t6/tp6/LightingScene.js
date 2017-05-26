@@ -1,6 +1,6 @@
 var degToRad = Math.PI / 180.0;
 
-var FREQ = 10;
+var FREQ = 50;
 var CLOCKRATE = 0;
 
 var INITIALX = 0;
@@ -55,7 +55,7 @@ LightingScene.prototype.init = function (application) {
 	this.submarine = new MySubmarine(this, INITIALX, INITIALY, INITIALZ);
 	this.cylinderb = new MyCylinderWBases(this, 8);
 	this.torpedos = [];
-	this.targets = [new MyTarget(this, -10, 1, 5), new MyTarget(this, 5, 1, 10),new MyTarget(this, 10, 4, 10)];
+	this.targets = [new MyTarget(this, -10, 1, 5), new MyTarget(this, 5, 1, 10), new MyTarget(this, 10, 4, 10)];
 	this.explosions = [];
 	this.targetIndex = 0;
 
@@ -331,13 +331,23 @@ LightingScene.prototype.display = function () {
 			this.pushMatrix();
 			this.pillarAppearance.apply();
 			if (this.torpedos[i].end) {
-				this.explosions.push(new MyExplosion(this, this.targets[i]));
+				this.explosions = new MyExplosion(this, this.targets[i].x, this.targets[i].y, this.targets[i].z);
 				this.torpedos.splice(i, 1);
 				this.targets.splice(i, 1);
-			} else
+			} else {
+				this.pushMatrix();
 				this.torpedos[i].display();
+				this.popMatrix();
+			}
 			this.popMatrix();
 		}
+	}
+
+	if (this.explosions.isExpanding) {
+		this.pushMatrix();
+		this.subMaterial3.apply();
+		this.explosions.display();
+		this.popMatrix();
 	}
 
 	// ---- END Primitive drawing section
@@ -414,9 +424,6 @@ LightingScene.prototype.update = function (currentTime) {
 	for (var i = 0; i < this.targets.length; i++)
 		if (this.torpedos[i] != null)
 			this.torpedos[i].update(currentTime);
-	for (var i = 0; i < this.explosions.length; i++)
-		if (this.explosions[i] != null)
-			this.explosions[i].update(currentTime);
 	if (this.Camera)
 		this.updateCamera();
-	};
+};
